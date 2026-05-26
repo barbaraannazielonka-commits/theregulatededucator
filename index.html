@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Regulated Educator</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --sage:#7a9e8e;--sage-light:#e8f0ec;--sage-mid:#c2d9ce;
+  --warm:#c4956a;--warm-light:#f5ede3;--warm-mid:#e8c9a8;
+  --rust:#b85c4a;--rust-light:#fdf0ee;--rust-mid:#f0c4bc;
+  --text:#2d3748;--text-mid:#4a5568;--text-light:#718096;
+  --bg:#faf9f7;--white:#fff;
+  --r:12px;--rs:8px;
+  --serif:Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7;font-size:16px}
+.page{display:none}.page.active{display:block}
+nav{background:rgba(250,249,247,0.97);border-bottom:1px solid #e2e8f0;padding:0 1.5rem;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:56px}
+.nav-brand{font-size:15px;font-weight:600;color:var(--sage);cursor:pointer;flex-shrink:0}
+.nav-links{display:flex;gap:.75rem;align-items:center}
+.nav-links button{background:none;border:none;font-size:13px;color:var(--text-light);cursor:pointer;font-family:var(--sans);padding:4px 0}
+.nav-links button:hover{color:var(--sage)}
+.nav-ref{background:var(--sage-light);border:1px solid var(--sage-mid)!important;color:var(--sage)!important;padding:4px 14px!important;border-radius:20px;font-size:12px!important}
+.lang-btn{background:none;border:1.5px solid var(--sage-mid);border-radius:6px;font-size:11px;font-weight:600;color:var(--sage);cursor:pointer;padding:3px 8px;font-family:var(--sans);letter-spacing:.5px;transition:all .2s;flex-shrink:0}
+.lang-btn:hover,.lang-btn.active{background:var(--sage);color:#fff;border-color:var(--sage)}
+.lang-group{display:flex;gap:4px;align-items:center;margin-left:.5rem}
+.back-btn{display:flex;align-items:center;gap:5px;background:none;border:none;font-size:13px;color:var(--text-light);cursor:pointer;font-family:var(--sans)}
+.back-btn:hover{color:var(--sage)}
+.hamburger{display:none;background:none;border:none;cursor:pointer;color:var(--text-mid);font-size:22px;padding:4px}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:#faf9f7;border-bottom:1px solid #e2e8f0;z-index:99;padding:1rem 1.5rem;flex-direction:column;gap:.25rem;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.mobile-menu.open{display:flex}
+.mobile-menu button{background:none;border:none;font-size:15px;color:var(--text-mid);cursor:pointer;font-family:var(--sans);padding:.75rem 0;text-align:left;border-bottom:1px solid #f0f0ec}
+.mobile-menu button:last-child{border-bottom:none}
+.mobile-menu button:hover{color:var(--sage)}
+.mobile-lang{display:flex;gap:8px;padding:.75rem 0;border-bottom:1px solid #f0f0ec}
+@media(max-width:700px){
+  .nav-links{display:none}.hamburger{display:block}
+  .hero{padding:3rem 1.25rem 2.5rem}
+  .btns{flex-direction:column;align-items:stretch}
+  .btn1,.btn2{justify-content:center;font-size:14px;padding:12px 20px}
+  .stats{gap:1.25rem}.stat-num{font-size:22px}
+  section{padding:2.5rem 1.25rem}
+  .vg,.sg,.dg,.rg,.str-grid,.haz-grid{grid-template-columns:1fr}
+  .diff-grid{grid-template-columns:1fr}
+  .sub-main,.sub-main-wide{padding:1.75rem 1.25rem 3rem}
+  .sub-hero{padding:2rem 1.25rem 1.75rem}
+  .wot-d .wz{flex-direction:column;gap:.5rem}
+  .sos-hdr{flex-direction:column;align-items:flex-start;gap:.5rem}
+  .result-tools{grid-template-columns:1fr}
+  .result-btns{flex-direction:column}
+}
+.hero{background:linear-gradient(160deg,#eef5f1 0%,#f5f0eb 60%,#eef2f8 100%);padding:5rem 2rem 4rem;text-align:center;overflow:hidden;position:relative}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:rgba(122,158,142,0.07)}
+.hi{max-width:760px;margin:0 auto;position:relative}
+.badge{display:inline-block;background:var(--sage-light);color:var(--sage);font-size:12px;padding:4px 14px;border-radius:20px;margin-bottom:1.5rem;border:1px solid var(--sage-mid);letter-spacing:.5px}
+.hero h1{font-size:clamp(24px,4vw,42px);font-family:var(--serif);font-style:italic;font-weight:400;margin-bottom:1.25rem}
+.hero h1 span{color:var(--sage);font-style:normal;font-weight:500}
+.hero p{font-size:17px;color:var(--text-mid);max-width:620px;margin:0 auto 2.5rem;line-height:1.8}
+.hero p strong{color:var(--text)}
+.btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn1{background:var(--sage);color:#fff;border:none;padding:13px 26px;border-radius:var(--rs);font-size:15px;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:var(--sans);transition:all .2s}
+.btn1:hover{background:#6a8e7e}
+.btn2{background:transparent;color:var(--sage);border:1.5px solid var(--sage);padding:12px 26px;border-radius:var(--rs);font-size:15px;cursor:pointer;font-family:var(--sans);transition:all .2s}
+.btn2:hover{background:var(--sage-light)}
+.stats{display:flex;justify-content:center;gap:2.5rem;margin-top:3rem;flex-wrap:wrap}
+.stat-num{font-size:28px;font-weight:500;color:var(--sage)}
+.stat-label{font-size:12px;color:var(--text-light)}
+section{padding:4rem 2rem}
+.si{max-width:900px;margin:0 auto}
+.stag{font-size:12px;text-transform:uppercase;letter-spacing:1.2px;color:var(--sage);font-weight:500;margin-bottom:.75rem}
+.stitle{font-size:clamp(20px,3vw,30px);margin-bottom:.75rem}
+.ssub{font-size:16px;color:var(--text-mid);max-width:600px;margin-bottom:2.5rem;line-height:1.8}
+.vg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.vc{background:var(--bg);border:1px solid #e2e8f0;border-radius:var(--r);padding:1.75rem;border-top:3px solid var(--sage)}
+.vi{width:44px;height:44px;background:var(--sage-light);border-radius:var(--rs);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;color:var(--sage);font-size:20px}
+.vc h3{font-size:16px;margin-bottom:.6rem}
+.vc p{font-size:14px;color:var(--text-mid);line-height:1.7}
+.ev{margin-top:.75rem;font-size:12px;color:var(--sage);font-style:italic;border-left:2px solid var(--sage-mid);padding-left:8px}
+.sos-wrap{background:linear-gradient(135deg,#f0f6f3,#f9f5f0)}
+.sos-hdr{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+.sos-badge{background:#e53e3e;color:#fff;font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500}
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+.sc{background:var(--white);border:1px solid #e2e8f0;border-radius:var(--r);padding:1.5rem;cursor:pointer;transition:all .25s}
+.sc:hover{border-color:var(--sage);transform:translateY(-2px)}
+.sc.open{border-color:var(--sage);background:#f8fcfa}
+.sc-hdr{display:flex;align-items:center;justify-content:space-between}
+.sc-left{display:flex;align-items:center;gap:12px}
+.snum{width:32px;height:32px;background:var(--sage);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0}
+.sc h3{font-size:15px}.sc .tl{font-size:12px;color:var(--text-light);margin-top:2px}
+.chev{color:#a0aec0;font-size:18px;transition:transform .25s}
+.sc.open .chev{transform:rotate(180deg)}
+.sd{display:none;margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid #e8eeea}
+.sc.open .sd{display:block}
+.ss{display:flex;gap:10px;margin-bottom:.75rem;align-items:flex-start}
+.ssn{width:22px;height:22px;background:var(--sage-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--sage);font-weight:500;flex-shrink:0;margin-top:2px}
+.ss p{font-size:14px;color:var(--text-mid);line-height:1.6}
+.sci{margin-top:1rem;font-size:12px;color:var(--text-light);background:var(--sage-light);padding:10px 12px;border-radius:var(--rs);line-height:1.6}
+.wot-d{background:var(--bg);border:1px solid #e2e8f0;border-radius:var(--r);overflow:hidden;margin-bottom:2rem}
+.wz{padding:1.25rem 1.5rem;border-bottom:1px solid #e2e8f0;display:flex;align-items:flex-start;gap:1rem}
+.wz:last-child{border-bottom:none}
+.dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.hy .dot{background:#e53e3e}.win .dot{background:var(--sage)}.hyp .dot{background:#718096}
+.wzt{font-size:14px;font-weight:500;margin-bottom:2px}.wzd{font-size:13px;color:var(--text-mid)}
+.pills{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-size:11px;padding:2px 8px;border-radius:20px}
+.hy .pill{background:#fff5f5;color:#c53030;border:1px solid #fed7d7}
+.win .pill{background:var(--sage-light);color:#2f6b55;border:1px solid var(--sage-mid)}
+.hyp .pill{background:#f7fafc;color:#4a5568;border:1px solid #e2e8f0}
+.deep-wrap{background:var(--sage-light)}
+.dg{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.dc{background:var(--white);border-radius:var(--r);overflow:hidden;border:1px solid #ddeae3;transition:transform .2s}
+.dc:hover{transform:translateY(-2px)}
+.dct{padding:1.75rem 1.75rem 1.25rem;border-bottom:1px solid #e8eeea}
+.dct h3{font-size:17px;margin-bottom:.5rem}
+.dct p{font-size:14px;color:var(--text-mid);line-height:1.7}
+.dcb{padding:1rem 1.75rem;display:flex;align-items:center;gap:6px;font-size:13px;color:var(--sage);cursor:pointer;transition:gap .2s}
+.dcb:hover{gap:10px}
+.ttag{display:inline-block;font-size:11px;background:var(--sage-light);color:var(--sage);padding:3px 9px;border-radius:20px;margin-bottom:.75rem;border:1px solid var(--sage-mid)}
+.dicon{font-size:28px;color:var(--sage-mid);margin-bottom:1rem}
+.rg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem}
+.ri{padding:1.25rem;background:var(--bg);border-radius:var(--rs);border:1px solid #e2e8f0}
+.ri h4{font-size:14px;margin-bottom:4px}
+.ri p{font-size:13px;color:var(--text-mid);line-height:1.6}
+.ri .cite{font-size:11px;color:var(--text-light);margin-top:6px;font-style:italic}
+.aff{background:linear-gradient(135deg,#5a7a6a,#4a6a5a);color:#fff;padding:4rem 2rem;text-align:center}
+.aff-i{max-width:680px;margin:0 auto}
+.aff blockquote{font-family:var(--serif);font-size:clamp(20px,3vw,28px);line-height:1.6;font-style:italic;color:#e8f5ef}
+footer{background:#2d3748;color:#a0aec0;padding:2rem;text-align:center;font-size:13px}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:1rem}
+.mo.open{display:flex}
+.mb{background:var(--white);border-radius:var(--r);max-width:520px;width:100%;padding:2rem;position:relative;max-height:90vh;overflow-y:auto}
+.mb h2{font-size:20px;margin-bottom:.5rem}
+.mb .msub{font-size:14px;color:var(--text-light);margin-bottom:1.5rem}
+.mc{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-light)}
+.ms{display:flex;gap:12px;margin-bottom:1.25rem;align-items:flex-start}
+.msc{width:28px;height:28px;border-radius:50%;background:var(--sage);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.ms h4{font-size:15px;margin-bottom:2px}
+.ms p{font-size:14px;color:var(--text-mid);line-height:1.6}
+.msci{background:var(--sage-light);border-radius:var(--rs);padding:1rem;font-size:13px;color:var(--text-mid);line-height:1.7;margin-top:1rem}
+.msci strong{color:var(--sage)}
+.intro-box{background:var(--warm-light);border-left:3px solid var(--warm);border-radius:0 var(--rs) var(--rs) 0;padding:1.25rem 1.5rem;margin-bottom:2.5rem;font-size:15px;color:var(--text-mid);line-height:1.8;font-style:italic}
+.intro-box strong{color:var(--text);font-style:normal}
+.loop-box{background:var(--white);border:1px solid #e2e8f0;border-left:3px solid var(--warm);border-radius:var(--r);padding:1.75rem;margin-bottom:2.5rem}
+.loop-box h3{font-size:17px;margin-bottom:.75rem}
+.loop-box p{font-size:14px;color:var(--text-mid);line-height:1.8}
+.str-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin-bottom:2.5rem}
+.str-card{background:var(--white);border:1px solid #e2e8f0;border-radius:var(--r);overflow:hidden}
+.str-top{padding:1.5rem 1.5rem 1rem}
+.str-n{width:36px;height:36px;background:var(--warm-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:var(--warm);margin-bottom:1rem;border:1px solid var(--warm-mid)}
+.str-card h3{font-size:15px;margin-bottom:.5rem}
+.str-card p{font-size:13px;color:var(--text-mid);line-height:1.7}
+.str-script{background:var(--warm-light);padding:.85rem 1.25rem;border-top:1px solid var(--warm-mid);font-size:13px;color:var(--text-mid);line-height:1.7}
+.str-script strong{color:var(--warm);font-size:11px;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:3px}
+.diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
+.dc2{padding:1.25rem;border-radius:var(--rs)}
+.dc2.good{background:#e8f5ef;border:1px solid var(--sage-mid)}
+.dc2.bad{background:#fff5f5;border:1px solid #fed7d7}
+.dc2 h4{font-size:13px;font-weight:500;margin-bottom:6px}
+.dc2.good h4{color:#2f6b55}.dc2.bad h4{color:#c53030}
+.dc2 p{font-size:13px;color:var(--text-mid);line-height:1.6}
+.takeaway{background:linear-gradient(135deg,#5a7a6a,#4a6a5a);border-radius:var(--r);padding:2rem;color:#fff}
+.takeaway h3{font-size:18px;font-family:var(--serif);font-style:italic;font-weight:400;color:#e8f5ef;margin-bottom:1rem}
+.takeaway p{font-size:14px;color:rgba(255,255,255,.85);line-height:1.8}
+.haz-intro{background:var(--rust-light);border-left:3px solid var(--rust);border-radius:0 var(--rs) var(--rs) 0;padding:1.25rem 1.5rem;margin-bottom:2.5rem;font-size:15px;color:var(--text-mid);line-height:1.8}
+.haz-category{margin-bottom:2.5rem}
+.haz-cat-title{font-size:18px;font-weight:500;color:var(--rust);margin-bottom:1.25rem;display:flex;align-items:center;gap:8px;padding-bottom:.5rem;border-bottom:2px solid var(--rust-mid)}
+.haz-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem}
+.haz-card{background:var(--white);border:1px solid #e8d8d5;border-radius:var(--r);overflow:hidden}
+.haz-card-top{padding:1.5rem 1.5rem 1rem}
+.haz-icon{width:40px;height:40px;background:var(--rust-light);border-radius:var(--rs);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;color:var(--rust);font-size:18px;border:1px solid var(--rust-mid)}
+.haz-card h3{font-size:15px;margin-bottom:.5rem;color:var(--text)}
+.haz-card p{font-size:13px;color:var(--text-mid);line-height:1.7}
+.haz-impact{background:var(--rust-light);padding:.85rem 1.25rem;border-top:1px solid var(--rust-mid);font-size:13px;color:var(--text-mid);line-height:1.7}
+.haz-impact strong{color:var(--rust);font-size:11px;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:3px}
+.sub-hero{background:linear-gradient(160deg,#eef5f1,#f5f0eb);padding:3rem 2rem 2.5rem;border-bottom:1px solid #e2e8f0}
+.sub-hi{max-width:760px;margin:0 auto}
+.sub-main{max-width:760px;margin:0 auto;padding:2.5rem 2rem 4rem}
+.sub-main-wide{max-width:960px;margin:0 auto;padding:2.5rem 2rem 4rem}
+.lg{margin-bottom:2.5rem}
+.lh{font-size:20px;font-weight:500;color:var(--sage);font-family:var(--serif);border-bottom:1px solid var(--sage-mid);padding-bottom:.35rem;margin-bottom:1rem}
+.rf{padding:.85rem 0;border-bottom:1px solid #efefeb;display:flex;gap:14px}
+.rf:last-child{border-bottom:none}
+.rn{font-size:12px;color:var(--sage);font-weight:500;min-width:20px;padding-top:3px}
+.rb{font-size:14px;color:var(--text-mid);line-height:1.8}
+.rb em{font-style:italic}
+.rb a{color:var(--sage);word-break:break-all}
+.rb a:hover{text-decoration:underline}
+.rtag{display:inline-block;font-size:11px;background:var(--sage-light);color:var(--sage);padding:2px 8px;border-radius:20px;margin-left:6px;border:1px solid var(--sage-mid);vertical-align:middle}
+.q-progress{background:#e2e8f0;border-radius:20px;height:6px;margin-bottom:2rem}
+.q-bar{background:var(--sage);height:6px;border-radius:20px;transition:width .4s}
+.q-label{font-size:12px;color:var(--text-light);margin-bottom:.5rem}
+.q-text{font-size:18px;font-weight:500;color:var(--text);margin-bottom:1.5rem;line-height:1.5}
+.q-options{display:flex;flex-direction:column;gap:.75rem}
+.q-opt{background:var(--white);border:1.5px solid #e2e8f0;border-radius:var(--r);padding:1rem 1.25rem;text-align:left;font-size:15px;color:var(--text-mid);cursor:pointer;font-family:var(--sans);line-height:1.5;transition:all .2s;width:100%}
+.q-opt:hover{border-color:var(--sage);background:var(--sage-light);color:var(--text)}
+.result-zone{border-radius:var(--r);padding:1.75rem;margin-bottom:2rem}
+.result-tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+.result-tool{background:var(--white);border:1px solid #e2e8f0;border-radius:var(--r);padding:1.25rem}
+.result-tool-icon{width:36px;height:36px;background:var(--sage-light);border-radius:var(--rs);display:flex;align-items:center;justify-content:center;margin-bottom:.75rem;color:var(--sage);font-size:18px;border:1px solid var(--sage-mid)}
+.result-tool h4{font-size:14px;font-weight:500;color:var(--text);margin-bottom:.4rem}
+.result-tool p{font-size:13px;color:var(--text-mid);line-height:1.6}
+.result-btns{display:flex;gap:1rem;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<!-- ══════ MAIN PAGE ══════ -->
+<div id="p-main" class="page active">
+<nav>
+  <span class="nav-brand" onclick="goPage('p-main')">The Regulated Educator</span>
+  <div class="nav-links">
+    <button onclick="scTo('sos')" data-en="SOS Toolkit" data-pl="Zestaw SOS">SOS Toolkit</button>
+    <button onclick="scTo('science')" data-en="The Science" data-pl="Nauka">The Science</button>
+    <button onclick="scTo('deep')" data-en="Deep Dives" data-pl="W głąb tematu">Deep Dives</button>
+    <button onclick="goPage('p-firstweek')" data-en="First Week Back" data-pl="Pierwszy Tydzień">First Week Back</button>
+    <button onclick="goPage('p-assessment')" data-en="Self Assessment" data-pl="Samoocena">Self Assessment</button>
+    <button onclick="goPage('p-staffroom')" data-en="Staffroom Survival" data-pl="Pokój Nauczycielski">Staffroom Survival</button>
+    <button onclick="goPage('p-hazards')" data-en="Occupational Hazards" data-pl="Zagrożenia Zawodowe">Occupational Hazards</button>
+    <button class="nav-ref" onclick="goPage('p-refs')" data-en="References" data-pl="Źródła">References</button>
+    <div class="lang-group">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-pl" onclick="setLang('pl')">PL</button>
+    </div>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()"><i class="ti ti-menu-2"></i></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-lang">
+    <button class="lang-btn active" id="mob-en" onclick="setLang('en');closeMenu()">EN</button>
+    <button class="lang-btn" id="mob-pl" onclick="setLang('pl');closeMenu()">PL</button>
+  </div>
+  <button onclick="scTo('sos');closeMenu()" data-en="SOS Toolkit" data-pl="Zestaw SOS">SOS Toolkit</button>
+  <button onclick="scTo('science');closeMenu()" data-en="The Science" data-pl="Nauka">The Science</button>
+  <button onclick="scTo('deep');closeMenu()" data-en="Deep Dives" data-pl="W głąb tematu">Deep Dives</button>
+  <button onclick="goPage('p-firstweek')" data-en="First Week Back" data-pl="Pierwszy Tydzień">First Week Back</button>
+  <button onclick="goPage('p-assessment')" data-en="Self Assessment" data-pl="Samoocena">Self Assessment</button>
+  <button onclick="goPage('p-staffroom')" data-en="Staffroom Survival" data-pl="Pokój Nauczycielski">Staffroom Survival</button>
+  <button onclick="goPage('p-hazards')" data-en="Occupational Hazards" data-pl="Zagrożenia Zawodowe">Occupational Hazards</button>
+  <button onclick="goPage('p-refs')" data-en="References" data-pl="Źródła">References</button>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hi">
+    <div class="badge" id="hero-badge">THE NEUROSCIENCE OF HOLDING SPACE</div>
+    <h1 id="hero-h1">You aren't just teaching a curriculum.<br><span>You are anchoring 30 different nervous systems.</span></h1>
+    <p id="hero-p">Non-teachers see a 5-hour school day. Neuroscience sees 5 hours of <strong>sustained attunement</strong>, intense emotional labor, and relentless co-regulation. Welcome to the evidence-based sanctuary built to protect your brain.</p>
+    <div class="btns">
+      <button class="btn1" onclick="scTo('sos')"><i class="ti ti-first-aid-kit"></i> <span id="btn-sos-text">Find immediate calm: the 30-second SOS toolkit</span></button>
+      <button class="btn2" onclick="scTo('science')"><span id="btn-sci-text">Explore the science of your brain</span></button>
+    </div>
+    <div class="stats">
+      <div><div class="stat-num">30+</div><div class="stat-label" id="stat1">nervous systems per classroom</div></div>
+      <div><div class="stat-num">~1,500</div><div class="stat-label" id="stat2">micro-predictions per day</div></div>
+      <div><div class="stat-num">2–3×</div><div class="stat-label" id="stat3">higher burnout rate</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SCIENCE -->
+<section style="background:var(--white)" id="science">
+  <div class="si">
+    <div class="stag" data-en="Why are you so tired?" data-pl="Dlaczego jesteś tak zmęczona/y?">Why are you so tired?</div>
+    <h2 class="stitle" data-en="The invisible biological tax of your day" data-pl="Niewidzialny biologiczny podatek Twojego dnia">The invisible biological tax of your day</h2>
+    <p class="ssub" data-en="What looks like a job is, neurologically, something far more demanding." data-pl="To, co wygląda jak praca, jest neurologicznie czymś znacznie bardziej wymagającym.">What looks like a job is, neurologically, something far more demanding.</p>
+    <div class="vg">
+      <div class="vc"><div class="vi"><i class="ti ti-brain"></i></div><h3 data-en="Sustained attunement" data-pl="Trwałe dostrojenie">Sustained attunement</h3><p data-en="Your prefrontal cortex runs thousands of micro-predictions every second to decode 30 faces, bodies, and tones. It is the most metabolically demanding task a human brain can perform." data-pl="Twoja kora przedczołowa wykonuje tysiące mikroprzewidywań na sekundę, dekodując 30 twarzy, ciał i tonów głosu. To najbardziej metabolicznie wymagające zadanie, jakie może wykonać ludzki mózg.">Your prefrontal cortex runs thousands of micro-predictions every second to decode 30 faces, bodies, and tones. It is the most metabolically demanding task a human brain can perform.</p><div class="ev">Barrett, 2017; Friston, 2010</div></div>
+      <div class="vc"><div class="vi"><i class="ti ti-wave-sine"></i></div><h3 data-en="Constant co-regulation" data-pl="Ciągła ko-regulacja">Constant co-regulation</h3><p data-en="Children cannot fully self-regulate. Through mirror neuron networks, they broadcast their nervous system chaos, forcing your body to absorb the shockwave and act as their external anchor." data-pl="Dzieci nie potrafią w pełni samoregulować się. Poprzez sieci neuronów lustrzanych nadają chaos swojego układu nerwowego, zmuszając Twoje ciało do absorbowania fal uderzeniowych i działania jako ich zewnętrzna kotwica.">Children cannot fully self-regulate. Through mirror neuron networks, they broadcast their nervous system chaos, forcing your body to absorb the shockwave and act as their external anchor.</p><div class="ev">Feldman, 2007; Porges, 2011</div></div>
+      <div class="vc"><div class="vi"><i class="ti ti-flame"></i></div><h3 data-en="High-stakes emotional labor" data-pl="Praca emocjonalna wysokiego ryzyka">High-stakes emotional labor</h3><p data-en="When criticized, yelled at, or handling conflict, your amygdala screams fight-or-flight. Overriding that instinct drains your physical energy reserves rapidly." data-pl="Gdy jesteś krytykowana/y, ktoś na Ciebie krzyczy lub gdy próbujesz rozwiązać konflikt, Twoje ciało migdałowate uruchamia reakcję „walcz albo uciekaj". Przezwyciężenie tego instynktu szybko wyczerpuje fizyczne rezerwy energii.">When criticized, yelled at, or handling conflict, your amygdala screams fight-or-flight. Overriding that instinct drains your physical energy reserves rapidly.</p><div class="ev">Grandey, 2003; Hülsheger &amp; Schewe, 2011</div></div>
+      <div class="vc"><div class="vi"><i class="ti ti-arrows-shuffle"></i></div><h3 data-en="Relentless role-switching" data-pl="Nieustanna zmiana ról">Relentless role-switching</h3><p data-en="Shifting between instructor, counselor, mediator, and administrator every few minutes forces repeated executive-function resets — a well-documented source of cognitive depletion." data-pl="Przechodzenie co kilka minut między rolą instruktora, doradcy, mediatora i administratora wymusza wielokrotne resetowanie funkcji wykonawczych — dobrze udokumentowane źródło wyczerpania poznawczego.">Shifting between instructor, counselor, mediator, and administrator every few minutes forces repeated executive-function resets — a well-documented source of cognitive depletion.</p><div class="ev">Monsell, 2003; Baumeister et al., 1998</div></div>
+      <div class="vc"><div class="vi"><i class="ti ti-battery-charging"></i></div><h3 data-en="Allostatic overload" data-pl="Przeciążenie alostatyczne">Allostatic overload</h3><p data-en='Chronic classroom demands accumulate an "allostatic load" — measurable wear on the cardiovascular and immune systems over time.' data-pl='Powtarzające się lub długotrwałe obciążenia w klasie kumulują tzw. „obciążenie allostatyczne" — czyli mierzalne, długoterminowe zużycie i przeciążenie układu sercowo-naczyniowego oraz odpornościowego.'>Chronic classroom demands accumulate an "allostatic load" — measurable wear on the cardiovascular and immune systems over time.</p><div class="ev">McEwen, 1998; Kyriacou, 2001</div></div>
+      <div class="vc"><div class="vi"><i class="ti ti-moon"></i></div><h3 data-en="The recovery deficit" data-pl="Deficyt regeneracji">The recovery deficit</h3><p data-en="Psychological detachment from work during off-hours is the strongest predictor of next-day energy. Teachers consistently show impaired detachment — their brains stay in planning mode." data-pl="Psychologiczne odłączenie się od pracy w czasie wolnym jest jednym z najsilniejszych wskaźników poziomu energii następnego dnia. Nauczyciele konsekwentnie wykazują upośledzone odłączenie — ich mózgi pozostają w trybie planowania.">Psychological detachment from work during off-hours is the strongest predictor of next-day energy. Teachers consistently show impaired detachment — their brains stay in planning mode.</p><div class="ev">Sonnentag &amp; Fritz, 2007</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOS TOOLKIT -->
+<section class="sos-wrap" id="sos">
+  <div class="si">
+    <div class="sos-hdr">
+      <div>
+        <div class="stag" data-en="In the middle of the storm?" data-pl="W środku burzy?">In the middle of the storm?</div>
+        <h2 class="stitle" style="margin-bottom:0" data-en="Start here" data-pl="Zacznij tutaj">Start here</h2>
+      </div>
+      <span class="sos-badge" data-en="SOS TOOLKIT" data-pl="ZESTAW SOS">SOS TOOLKIT</span>
+    </div>
+    <p class="ssub" data-en="Evidence-based micro-interventions under 30 seconds — without students noticing. Click to expand." data-pl="Mikro-interwencje oparte na dowodach naukowych, trwające poniżej 30 sekund — niezauważalne dla uczniów. Kliknij, aby rozwinąć.">Evidence-based micro-interventions under 30 seconds — without students noticing. Click to expand.</p>
+    <div class="sg">
+
+      <div class="sc" onclick="toggleSOS(this)">
+        <div class="sc-hdr"><div class="sc-left"><div class="snum">1</div><div>
+          <h3 data-en="The physiological sigh" data-pl="Westchnienie fizjologiczne">The physiological sigh</h3>
+          <div class="tl" data-en="Resets heart rate in two breaths" data-pl="Resetuje tętno w dwóch oddechach">Resets heart rate in two breaths</div>
+        </div></div><i class="ti ti-chevron-down chev"></i></div>
+        <div class="sd">
+          <div class="ss"><div class="ssn">1</div><p data-en="Inhale fully through your nose until your lungs feel full." data-pl="Wdychaj powoli przez nos, aż poczujesz, że płuca są pełne.">Inhale fully through your nose until your lungs feel full.</p></div>
+          <div class="ss"><div class="ssn">2</div><p data-en="Take a second short sniff on top to fully inflate the alveoli." data-pl="Zrób drugi, krótki wdech na wierzch, aby w pełni napełnić pęcherzyki płucne.">Take a second short sniff on top to fully inflate the alveoli.</p></div>
+          <div class="ss"><div class="ssn">3</div><p data-en="Exhale slowly and completely through your mouth." data-pl="Wydychaj powoli i całkowicie przez usta.">Exhale slowly and completely through your mouth.</p></div>
+          <div class="sci"><strong>The science:</strong> <span data-en="Double-inhale followed by extended exhale is the fastest known way to reduce physiological arousal. (Balban et al., 2023)" data-pl="Podwójny wdech, po którym następuje przedłużony wydech, to najszybsza znana metoda redukcji pobudzenia fizjologicznego. (Balban et al., 2023)">Double-inhale followed by extended exhale is the fastest known way to reduce physiological arousal. (Balban et al., 2023)</span></div>
+        </div>
+      </div>
+
+      <div class="sc" onclick="toggleSOS(this)">
+        <div class="sc-hdr"><div class="sc-left"><div class="snum">2</div><div>
+          <h3 data-en="Grounding neuroception" data-pl="Uziemienie neuropercepcji">Grounding neuroception</h3>
+          <div class="tl" data-en="Dampens the amygdala alarm system" data-pl="Wycisza system alarmowy ciała migdałowatego">Dampens the amygdala alarm system</div>
+        </div></div><i class="ti ti-chevron-down chev"></i></div>
+        <div class="sd">
+          <div class="ss"><div class="ssn">1</div><p data-en="Press both feet firmly into the floor — heel, arch, toes." data-pl="Mocno oprzyj obie stopy na podłodze — pięta, łuk, palce.">Press both feet firmly into the floor — heel, arch, toes.</p></div>
+          <div class="ss"><div class="ssn">2</div><p data-en="Press your back into your chair or grip a desk edge." data-pl="Oprzyj plecy o krzesło lub chwyć krawędź biurka.">Press your back into your chair or grip a desk edge.</p></div>
+          <div class="ss"><div class="ssn">3</div><p data-en="Name 3 things you can see. This re-engages your cortex." data-pl="Nazwij 3 rzeczy, które widzisz. To ponownie angażuje korę mózgową.">Name 3 things you can see. This re-engages your cortex.</p></div>
+          <div class="sci"><strong>The science:</strong> <span data-en="Proprioceptive input signals safety to the nervous system. (Porges, 2011)" data-pl="Sygnały proprioceptywne informują układ nerwowy o bezpieczeństwie. (Porges, 2011)">Proprioceptive input signals safety to the nervous system. (Porges, 2011)</span></div>
+        </div>
+      </div>
+
+      <div class="sc" onclick="toggleSOS(this)">
+        <div class="sc-hdr"><div class="sc-left"><div class="snum">3</div><div>
+          <h3 data-en="De-escalation scripts" data-pl="Skrypty deeskalacyjne">De-escalation scripts</h3>
+          <div class="tl" data-en="Pre-programmed phrases that protect cognition" data-pl="Gotowe frazy chroniące funkcje poznawcze">Pre-programmed phrases that protect cognition</div>
+        </div></div><i class="ti ti-chevron-down chev"></i></div>
+        <div class="sd">
+          <div class="ss"><div class="ssn">1</div><p data-en='"I can see this is hard for you right now."' data-pl='"Widzę, że to dla ciebie teraz trudne."'>"I can see this is hard for you right now."</p></div>
+          <div class="ss"><div class="ssn">2</div><p data-en='"Let&apos;s both take a breath and try again."' data-pl='"Oboje weźmy oddech i spróbujmy jeszcze raz."'>"Let's both take a breath and try again."</p></div>
+          <div class="ss"><div class="ssn">3</div><p data-en='"I&apos;m not going anywhere. Take the time you need."' data-pl='"Nigdzie nie idę. Weź tyle czasu, ile potrzebujesz."'>"I'm not going anywhere. Take the time you need."</p></div>
+          <div class="sci"><strong>The science:</strong> <span data-en="Pre-rehearsed scripts bypass executive function demand. (Dana, 2018; Siegel, 1999)" data-pl="Wcześniej wyuczone skrypty omijają zapotrzebowanie na funkcje wykonawcze. (Dana, 2018; Siegel, 1999)">Pre-rehearsed scripts bypass executive function demand. (Dana, 2018; Siegel, 1999)</span></div>
+        </div>
+      </div>
+
+      <div class="sc" onclick="toggleSOS(this)">
+        <div class="sc-hdr"><div class="sc-left"><div class="snum">4</div><div>
+          <h3 data-en="Cold water reset" data-pl="Reset zimną wodą">Cold water reset</h3>
+          <div class="tl" data-en="Activates the dive reflex in 10 seconds" data-pl="Aktywuje odruch nurkowania w 10 sekund">Activates the dive reflex in 10 seconds</div>
+        </div></div><i class="ti ti-chevron-down chev"></i></div>
+        <div class="sd">
+          <div class="ss"><div class="ssn">1</div><p data-en="Run cold water over your wrists for 10 seconds." data-pl="Przepuść zimną wodę przez nadgarstki przez 10 sekund.">Run cold water over your wrists for 10 seconds.</p></div>
+          <div class="ss"><div class="ssn">2</div><p data-en="Optionally splash cold water on your face." data-pl="Opcjonalnie pryśnij zimną wodą na twarz.">Optionally splash cold water on your face.</p></div>
+          <div class="ss"><div class="ssn">3</div><p data-en="Take one slow breath before returning to the room." data-pl="Zrób jeden powolny oddech przed powrotem do klasy.">Take one slow breath before returning to the room.</p></div>
+          <div class="sci"><strong>The science:</strong> <span data-en="Cold water activates the mammalian dive reflex. (Gooden, 1994)" data-pl="Zimna woda aktywuje ssaczy odruch nurkowania. (Gooden, 1994)">Cold water activates the mammalian dive reflex. (Gooden, 1994)</span></div>
+        </div>
+      </div>
+
+      <div class="sc" onclick="toggleSOS(this)">
+        <div class="sc-hdr"><div class="sc-left"><div class="snum">5</div><div>
+          <h3 data-en="Orienting response reset" data-pl="Reset reakcji orientacyjnej">Orienting response reset</h3>
+          <div class="tl" data-en="Shifts nervous system from threat to safe" data-pl="Przełącza układ nerwowy z zagrożenia na bezpieczeństwo">Shifts nervous system from threat to safe</div>
+        </div></div><i class="ti ti-chevron-down chev"></i></div>
+        <div class="sd">
+          <div class="ss"><div class="ssn">1</div><p data-en="Slowly turn your head all the way left, then right." data-pl="Powoli obróć głowę całkowicie w lewo, a następnie w prawo.">Slowly turn your head all the way left, then right.</p></div>
+          <div class="ss"><div class="ssn">2</div><p data-en="Allow your eyes to land softly on something neutral." data-pl="Pozwól oczom spocząć delikatnie na czymś neutralnym.">Allow your eyes to land softly on something neutral.</p></div>
+          <div class="ss"><div class="ssn">3</div><p data-en="Pause when you notice a natural sigh — that's nervous system release." data-pl="Zatrzymaj się, gdy poczujesz naturalne westchnienie — to uwolnienie układu nerwowego.">Pause when you notice a natural sigh — that's nervous system release.</p></div>
+          <div class="sci"><strong>The science:</strong> <span data-en="Slow lateral eye movement activates parasympathetic tone. (Levine, 1997; Shapiro, 2001)" data-pl="Powolny boczny ruch oczu aktywuje napięcie przywspółczulne. (Levine, 1997; Shapiro, 2001)">Slow lateral eye movement activates parasympathetic tone. (Levine, 1997; Shapiro, 2001)</span></div>
+        </div>
+      </div>
+
+      <div class="sc" onclick="toggleSOS(this)">
+        <div class="sc-hdr"><div class="sc-left"><div class="snum">6</div><div>
+          <h3 data-en="Name it to tame it" data-pl="Nazwij, by oswoić">Name it to tame it</h3>
+          <div class="tl" data-en="Reduces amygdala activation in 30 seconds" data-pl="Redukuje aktywację ciała migdałowatego w 30 sekund">Reduces amygdala activation in 30 seconds</div>
+        </div></div><i class="ti ti-chevron-down chev"></i></div>
+        <div class="sd">
+          <div class="ss"><div class="ssn">1</div><p data-en='Internally name the emotion: "I am noticing frustration."' data-pl='Wewnętrznie nazwij emocję: "Zauważam frustrację."'>Internally name the emotion: "I am noticing frustration."</p></div>
+          <div class="ss"><div class="ssn">2</div><p data-en="Be specific — precision produces different neural effects." data-pl="Bądź precyzyjny/a — dokładność wywołuje różne efekty neuronalne.">Be specific — precision produces different neural effects.</p></div>
+          <div class="ss"><div class="ssn">3</div><p data-en="You do not need to resolve it — labeling alone reduces the signal." data-pl="Nie musisz tego rozwiązywać — samo nazywanie redukuje sygnał.">You do not need to resolve it — labeling alone reduces the signal.</p></div>
+          <div class="sci"><strong>The science:</strong> <span data-en="Affect labeling reduces amygdala activation. (Lieberman et al., 2007)" data-pl="Nazywanie emocji redukuje aktywację ciała migdałowatego. (Lieberman et al., 2007)">Affect labeling reduces amygdala activation. (Lieberman et al., 2007)</span></div>
+        </div>
+      </div>
+
+      <div class="sc" onclick="toggleSOS(this)">
+        <div class="sc-hdr"><div class="sc-left"><div class="snum">7</div><div>
+          <h3 data-en="Somatic shaking" data-pl="Celowe potrząsanie ciałem">Somatic shaking</h3>
+          <div class="tl" data-en="Discharges stress from the nervous system in 2 minutes" data-pl="Rozładowuje stres z układu nerwowego w 2 minuty">Discharges stress from the nervous system in 2 minutes</div>
+        </div></div><i class="ti ti-chevron-down chev"></i></div>
+        <div class="sd">
+          <div class="ss"><div class="ssn">1</div><p data-en="Stand with feet hip-width apart and slightly bend your knees. Begin to gently bounce — letting your body vibrate naturally." data-pl="Stań ze stopami na szerokość bioder i lekko ugnij kolana. Zacznij delikatnie podskakiwać — pozwalając ciału naturalnie wibrować.">Stand with feet hip-width apart and slightly bend your knees. Begin to gently bounce — letting your body vibrate naturally.</p></div>
+          <div class="ss"><div class="ssn">2</div><p data-en="Allow the shaking to spread up through your legs, hips, and torso. Do not force it — let the tremor move where it wants to go." data-pl="Pozwól, by drżenie rozprzestrzeniło się przez nogi, biodra i tułów. Nie wymuszaj — pozwól drżeniu płynąć tam, gdzie chce.">Allow the shaking to spread up through your legs, hips, and torso. Do not force it — let the tremor move where it wants to go.</p></div>
+          <div class="ss"><div class="ssn">3</div><p data-en="After 1–2 minutes, slow down, stand still, and take a full breath. Notice the warmth and release in your body." data-pl="Po 1–2 minutach zwolnij, stań nieruchomo i weź pełny oddech. Zauważ ciepło i uwolnienie w ciele.">After 1–2 minutes, slow down, stand still, and take a full breath. Notice the warmth and release in your body.</p></div>
+          <div class="sci"><strong>The science:</strong> <span data-en="Mammals naturally shake after threat exposure to discharge excess stress hormones. This neurogenic tremor activates the parasympathetic nervous system and completes the stress response cycle. (Levine, 1997; Berceli, 2008)" data-pl="Ssaki naturalnie drżą po ekspozycji na zagrożenie, aby rozładować nadmiar hormonów stresu. Neurogenne drżenie aktywuje przywspółczulny układ nerwowy i kończy cykl reakcji stresowej. (Levine, 1997; Berceli, 2008)">Mammals naturally shake after threat exposure to discharge excess stress hormones. This neurogenic tremor activates the parasympathetic nervous system and completes the stress response cycle. (Levine, 1997; Berceli, 2008)</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WINDOW OF TOLERANCE -->
+<section style="background:var(--white)" id="deep">
+  <div class="si">
+    <div class="stag" data-en="Decode your classroom brain" data-pl="Odczytaj sygnały swojego mózgu w klasie">Decode your classroom brain</div>
+    <h2 class="stitle" data-en="Inside the window of tolerance" data-pl="Wewnątrz okna tolerancji">Inside the window of tolerance</h2>
+    <p class="ssub" data-en="At any moment your nervous system sits somewhere in this model. Knowing where you are is the first act of regulation." data-pl="W każdej chwili Twój układ nerwowy znajduje się gdzieś w tym modelu. Wiedza o tym, gdzie jesteś, jest pierwszym aktem regulacji.">At any moment your nervous system sits somewhere in this model. Knowing where you are is the first act of regulation.</p>
+    <div class="wot-d">
+      <div class="wz hy"><div class="dot"></div><div>
+        <div class="wzt" data-en="Hyperarousal — fight or flight" data-pl="Nadpobudzenie — walcz lub uciekaj">Hyperarousal — fight or flight</div>
+        <div class="wzd" data-en="The sympathetic nervous system has overwhelmed the braking system. You feel reactive, irritable, or panicked." data-pl="Współczulny układ nerwowy przytłoczył system hamowania. Czujesz się reaktywny/a, drażliwy/a lub spanikowany/a.">The sympathetic nervous system has overwhelmed the braking system. You feel reactive, irritable, or panicked.</div>
+        <div class="pills">
+          <span class="pill" data-en="Racing heart" data-pl="Bijące serce">Racing heart</span>
+          <span class="pill" data-en="Snapping at students" data-pl="Tracenie panowania nad emocjami w relacji z uczniami">Snapping at students</span>
+          <span class="pill" data-en="Catastrophic thinking" data-pl="Myślenie katastroficzne">Catastrophic thinking</span>
+          <span class="pill" data-en="Jaw clenching" data-pl="Zaciskanie szczęki">Jaw clenching</span>
+        </div>
+      </div></div>
+      <div class="wz win"><div class="dot"></div><div>
+        <div class="wzt" data-en="Window of tolerance — ventral vagal engagement" data-pl="Okno tolerancji — zaangażowanie nerwu błędnego brzusznego">Window of tolerance — ventral vagal engagement</div>
+        <div class="wzd" data-en="The social engagement zone. You can think, connect, and teach. Prefrontal cortex is online." data-pl="Strefa zaangażowania społecznego. Możesz myśleć, łączyć się i uczyć. Kora przedczołowa jest aktywna.">The social engagement zone. You can think, connect, and teach. Prefrontal cortex is online.</div>
+        <div class="pills">
+          <span class="pill" data-en="Curious, not reactive" data-pl="Ciekawość, nie reaktywność">Curious, not reactive</span>
+          <span class="pill" data-en="Able to improvise" data-pl="Zdolność do improwizacji">Able to improvise</span>
+          <span class="pill" data-en="Can hold conflict" data-pl="Tolerancja konfliktu">Can hold conflict</span>
+          <span class="pill" data-en="Body feels grounded" data-pl="Ciało czuje się zakorzenione">Body feels grounded</span>
+        </div>
+      </div></div>
+      <div class="wz hyp"><div class="dot"></div><div>
+        <div class="wzt" data-en="Hypoarousal — freeze / shutdown" data-pl="Podpobudzenie — zamrożenie / wyłączenie">Hypoarousal — freeze / shutdown</div>
+        <div class="wzd" data-en="Dorsal vagal collapse. Your nervous system has gone into energy conservation after chronic overload. This is what burnout feels like from the inside." data-pl="Załamania reakcji grzbietowej gałęzi nerwu błędnego. Twój układ nerwowy wszedł w tryb oszczędzania energii po chronicznym przeciążeniu. Tak wygląda wypalenie od środka.">Dorsal vagal collapse. Your nervous system has gone into energy conservation after chronic overload. This is what burnout feels like from the inside.</div>
+        <div class="pills">
+          <span class="pill" data-en="Emotional numbness" data-pl="Emocjonalne odrętwienie">Emotional numbness</span>
+          <span class="pill" data-en="Chronic fatigue" data-pl="Chroniczne zmęczenie">Chronic fatigue</span>
+          <span class="pill" data-en="Going through motions" data-pl="Mechaniczne działanie">Going through motions</span>
+          <span class="pill" data-en="Dread on Sunday night" data-pl="Lęk w niedzielny wieczór">Dread on Sunday night</span>
+        </div>
+      </div></div>
+    </div>
+    <p style="font-size:13px;color:var(--text-light);font-style:italic" data-en="Based on Siegel's Window of Tolerance model (1999) and Porges' Polyvagal Theory (2011)." data-pl="Na podstawie modelu Okna Tolerancji Siegela (1999) i Teorii Poliwagalnej Porgesa (2011).">Based on Siegel's Window of Tolerance model (1999) and Porges' Polyvagal Theory (2011).</p>
+  </div>
+</section>
+
+<!-- DEEP DIVES -->
+<section class="deep-wrap">
+  <div class="si">
+    <div class="stag" data-en="Go deeper" data-pl="Wejdź głębiej">Go deeper</div>
+    <h2 class="stitle" data-en="The full evidence base" data-pl="Pełna baza dowodów naukowych">The full evidence base</h2>
+    <p class="ssub" data-en="These are not wellness tips. These are neurological realities about the most demanding regulated profession that exists." data-pl="To nie są porady wellness. To neurologiczne realia dotyczące najbardziej wymagającego zawodu.">These are not wellness tips. These are neurological realities about the most demanding regulated profession that exists.</p>
+    <div class="dg">
+      <div class="dc"><div class="dct"><div class="dicon"><i class="ti ti-activity-heartbeat"></i></div><div class="ttag" data-en="emotional labor" data-pl="praca emocjonalna">emotional labor</div><h3 data-en='The myth of "just teaching"' data-pl='Mit "tylko nauczanie"'>The myth of "just teaching"</h3><p data-en="Why changing hats every five minutes causes profound decision fatigue, and how to protect your brain's glucose reserves." data-pl="Dlaczego zmiana ról co pięć minut powoduje głębokie zmęczenie decyzyjne i jak chronić rezerwy glukozy w mózgu.">Why changing hats every five minutes causes profound decision fatigue, and how to protect your brain's glucose reserves.</p></div><div class="dcb" onclick="openM('fatigue')"><span data-en="Explore the data" data-pl="Zbadaj dane">Explore the data</span> <i class="ti ti-arrow-right"></i></div></div>
+      <div class="dc"><div class="dct"><div class="dicon"><i class="ti ti-users"></i></div><div class="ttag" data-en="co-regulation" data-pl="ko-regulacja">co-regulation</div><h3 data-en="Your nervous system is not your own" data-pl="Twój układ nerwowy nie należy tylko do Ciebie">Your nervous system is not your own</h3><p data-en="The neurobiology of physiological synchrony — how teacher and student heart rate variability actually couples during class." data-pl="Neurobiologia synchronii fizjologicznej — jak zmienność rytmu serca nauczyciela i ucznia faktycznie sprzęga się podczas lekcji.">The neurobiology of physiological synchrony — how teacher and student heart rate variability actually couples during class.</p></div><div class="dcb" onclick="openM('sync')"><span data-en="Read the guide" data-pl="Przeczytaj przewodnik">Read the guide</span> <i class="ti ti-arrow-right"></i></div></div>
+      <div class="dc"><div class="dct"><div class="dicon"><i class="ti ti-shield-half"></i></div><div class="ttag" data-en="burnout prevention" data-pl="zapobieganie wypaleniu">burnout prevention</div><h3 data-en="Building your buffer" data-pl="Budowanie bufora">Building your buffer</h3><p data-en="Evidence-based practices that demonstrably widen your window of tolerance over time." data-pl="Praktyki oparte na dowodach naukowych, które wyraźnie poszerzają okno tolerancji.">Evidence-based practices that demonstrably widen your window of tolerance over time.</p></div><div class="dcb" onclick="openM('buffer')"><span data-en="Read the guide" data-pl="Przeczytaj przewodnik">Read the guide</span> <i class="ti ti-arrow-right"></i></div></div>
+      <div class="dc"><div class="dct"><div class="dicon"><i class="ti ti-molecule"></i></div><div class="ttag" data-en="neurobiology" data-pl="neurobiologia">neurobiology</div><h3 data-en="What cortisol is doing to your body" data-pl="Co kortyzol robi z Twoim ciałem">What cortisol is doing to your body</h3><p data-en="Chronic low-grade cortisol elevation affects memory, immune function, cardiovascular risk, and the ability to feel pleasure." data-pl="Chronicznie podwyższony poziom kortyzolu wpływa na pamięć, funkcje immunologiczne, ryzyko sercowo-naczyniowe i zdolność odczuwania przyjemności.">Chronic low-grade cortisol elevation affects memory, immune function, cardiovascular risk, and the ability to feel pleasure.</p></div><div class="dcb" onclick="openM('cortisol')"><span data-en="Explore the data" data-pl="Zbadaj dane">Explore the data</span> <i class="ti ti-arrow-right"></i></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section style="background:var(--white);border-top:1px solid #e2e8f0">
+  <div class="si">
+    <div class="stag" data-en="Evidence base" data-pl="Baza dowodów">Evidence base</div>
+    <h2 class="stitle" data-en="What the research actually shows" data-pl="Co badania naprawdę pokazują">What the research actually shows</h2>
+    <p class="ssub" data-en="Numbers non-teachers have never seen." data-pl="Liczby niewidoczne dla tych, którzy nie pracują w tym zawodzie.">Numbers non-teachers have never seen.</p>
+    <div class="rg">
+      <div class="ri"><h4 data-en="Teacher cortisol profiles" data-pl="Profile kortyzolu nauczycieli">Teacher cortisol profiles</h4><p data-en="Teachers show a steeper cortisol awakening response and slower evening recovery than matched non-teaching professionals." data-pl="Nauczyciele wykazują wyższy poranny wzrost poziomu kortyzolu oraz wolniejszy powrót do równowagi wieczorem w porównaniu z podobnymi grupami zawodowymi spoza edukacji.">Teachers show a steeper cortisol awakening response and slower evening recovery than matched non-teaching professionals.</p><div class="cite">Shan et al. (2019)</div></div>
+      <div class="ri"><h4 data-en="Burnout is not a mindset problem" data-pl="Wypalenie to nie problem nastawienia">Burnout is not a mindset problem</h4><p data-en="Teacher burnout is predicted primarily by structural demands — class size, behavioral incidents, administrative load — not individual coping style." data-pl="Wypalenie zawodowe nauczycieli jest przede wszystkim przewidywane przez czynniki strukturalne takie jak wielkość klasy, incydenty behawioralne czy obciążenie administracyjne, a nie przez indywidualne style radzenia sobie ze stresem.">Teacher burnout is predicted primarily by structural demands — class size, behavioral incidents, administrative load — not individual coping style.</p><div class="cite">Hakanen et al. (2006)</div></div>
+      <div class="ri"><h4 data-en="Emotional labor and attrition" data-pl="Praca emocjonalna a odejścia nauczycieli z zawodu">Emotional labor and attrition</h4><p data-en="Surface acting predicts teacher dropout more strongly than workload alone. Authenticity of emotional display is a neurological resource." data-pl="Powierzchowne odgrywanie emocji przewiduje odejście nauczycieli silniej niż samo obciążenie pracą.">Surface acting predicts teacher dropout more strongly than workload alone.</p><div class="cite">Tsouloupas et al. (2010)</div></div>
+      <div class="ri"><h4 data-en="Co-regulation is bidirectional" data-pl="Ko-regulacja działa w obu kierunkach">Co-regulation is bidirectional</h4><p data-en="A regulated teacher measurably reduces student cortisol levels during high-stakes testing periods." data-pl="Uregulowany/a nauczyciel/ka mierzalnie obniża poziom kortyzolu uczniów podczas egzaminów.">A regulated teacher measurably reduces student cortisol levels during high-stakes testing periods.</p><div class="cite">Feldman (2007); Porges (2011)</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="aff"><div class="aff-i">
+  <blockquote id="aff-quote">"You are not failing. You are just operating a human brain under extraordinary neurological demands."</blockquote>
+</div></div>
+
+<footer>
+  <p>The Regulated Educator &nbsp;&nbsp; Built on peer-reviewed neuroscience &nbsp;&nbsp; Barbara Anna Zielonka</p>
+  <p style="margin-top:8px;font-size:12px;opacity:.6" data-en="This site provides psychoeducational information and does not constitute medical or psychological advice." data-pl="Ta strona dostarcza informacji psychoedukacyjnych i nie stanowi porady medycznej ani psychologicznej.">This site provides psychoeducational information and does not constitute medical or psychological advice.</p>
+</footer>
+</div><!-- /main -->
+
+<!-- ══════ FIRST WEEK BACK ══════ -->
+<div id="p-firstweek" class="page">
+<nav>
+  <span class="nav-brand" onclick="goPage('p-main')">The Regulated Educator</span>
+  <div class="nav-links">
+    <button class="back-btn" onclick="goPage('p-main')"><i class="ti ti-arrow-left"></i> <span data-en="Back" data-pl="Wróć">Back</span></button>
+    <button class="nav-ref" onclick="goPage('p-refs')" data-en="References" data-pl="Źródła">References</button>
+    <div class="lang-group">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('pl')">PL</button>
+    </div>
+  </div>
+</nav>
+<div class="sub-hero" style="background:linear-gradient(160deg,#eef5f1,#f0ece8)">
+  <div class="sub-hi">
+    <div class="badge" data-en="FIRST WEEK BACK" data-pl="PIERWSZY TYDZIEŃ">FIRST WEEK BACK</div>
+    <h1 style="font-size:clamp(22px,3vw,34px);font-family:var(--serif);font-style:italic;font-weight:400;margin-top:.75rem" data-en="Your Neurological Re-entry Guide" data-pl="Twój neurologiczny przewodnik powrotu">Your Neurological Re-entry Guide</h1>
+    <p style="font-size:15px;color:var(--text-mid);margin-top:.75rem;max-width:600px;line-height:1.8" data-en="To protect your peace and your energy, you have to treat the first five days back as a phase of active neurological adjustment. Here is your step-by-step game plan." data-pl="Aby chronić swój spokój i energię, musisz traktować pierwsze pięć dni po powrocie jako fazę aktywnego dostosowania neurologicznego. Oto Twój plan działania krok po kroku.">To protect your peace and your energy, you have to treat the first five days back as a phase of active neurological adjustment. Here is your step-by-step game plan.</p>
+  </div>
+</div>
+<div class="sub-main-wide">
+  <div class="stag" data-en="The first week survival blueprint" data-pl="Plan przetrwania pierwszego tygodnia">The first week survival blueprint</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin-top:1rem;margin-bottom:3rem">
+    <div style="background:var(--white);border:1px solid #e2e8f0;border-radius:var(--r);overflow:hidden"><div style="padding:1.5rem 1.5rem 1rem"><div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem"><div style="width:38px;height:38px;background:var(--sage-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:var(--sage);border:1px solid var(--sage-mid);flex-shrink:0">1</div><div><div style="font-size:15px;font-weight:500" data-en="Protect your mornings" data-pl="Chroń swoje poranki">Protect your mornings</div><div style="font-size:12px;color:var(--text-light)" data-en="Before contract hours" data-pl="Przed godzinami pracy">Before contract hours</div></div></div><p style="font-size:14px;color:var(--text-mid);line-height:1.7" data-en="Arrive 15 minutes early just to sit in silence. Do not open your email, make copies, or fiddle with classroom setups during this window. Let your brain register the physical space calmly before the sensory noise begins." data-pl="Przyjedź 15 minut wcześniej, żeby posiedzieć w ciszy. Nie otwieraj poczty, nie rób kopii ani nie przestawiaj biurek w tym czasie. Pozwól swojemu mózgowi spokojnie zarejestrować przestrzeń, zanim zacznie się hałas sensoryczny.">Arrive 15 minutes early just to sit in silence. Do not open your email, make copies, or fiddle with classroom setups during this window.</p></div><div style="background:var(--sage-light);padding:.85rem 1.25rem;border-top:1px solid var(--sage-mid);font-size:12px;color:var(--sage)" data-en="Quiet pre-arrival time lowers cortisol awakening response before the day's demands begin." data-pl="Czas ciszy przed przyjazdem obniża poranny wzrost kortyzolu przed rozpoczęciem wymagań dnia."><i class="ti ti-brain" style="margin-right:6px"></i>Quiet pre-arrival time lowers cortisol awakening response before the day's demands begin.</div></div>
+    <div style="background:var(--white);border:1px solid #e2e8f0;border-radius:var(--r);overflow:hidden"><div style="padding:1.5rem 1.5rem 1rem"><div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem"><div style="width:38px;height:38px;background:var(--sage-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:var(--sage);border:1px solid var(--sage-mid);flex-shrink:0">2</div><div><div style="font-size:15px;font-weight:500" data-en="Slash your cognitive load" data-pl="Zmniejsz obciążenie poznawcze">Slash your cognitive load</div><div style="font-size:12px;color:var(--text-light)" data-en="During lessons" data-pl="Podczas lekcji">During lessons</div></div></div><p style="font-size:14px;color:var(--text-mid);line-height:1.7" data-en="Do not introduce complex new content or heavy grading during week one. Lean into structured routines, community-building activities, and low-stakes collaborative work." data-pl="Nie wprowadzaj złożonych nowych treści ani ciężkiego oceniania w pierwszym tygodniu. Opieraj się na strukturalnych rutynach, działaniach budujących społeczność i pracy zespołowej niskiego ryzyka.">Do not introduce complex new content or heavy grading during week one.</p></div><div style="background:var(--sage-light);padding:.85rem 1.25rem;border-top:1px solid var(--sage-mid);font-size:12px;color:var(--sage)" data-en="Reducing novel cognitive demands conserves prefrontal glucose for the social-emotional work re-entry requires." data-pl="Zmniejszenie nowych wymagań poznawczych oszczędza glukozę kory przedczołowej dla pracy społeczno-emocjonalnej wymaganej przy powrocie."><i class="ti ti-brain" style="margin-right:6px"></i>Reducing novel cognitive demands conserves prefrontal glucose for the social-emotional work re-entry requires.</div></div>
+    <div style="background:var(--white);border:1px solid #e2e8f0;border-radius:var(--r);overflow:hidden"><div style="padding:1.5rem 1.5rem 1rem"><div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem"><div style="width:38px;height:38px;background:var(--sage-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:var(--sage);border:1px solid var(--sage-mid);flex-shrink:0">3</div><div><div style="font-size:15px;font-weight:500" data-en="Implement a mid-day reset" data-pl="Wdroż reset w połowie dnia">Implement a mid-day reset</div><div style="font-size:12px;color:var(--text-light)" data-en="Lunch or planning time" data-pl="Czas na lunch lub planowanie">Lunch or planning time</div></div></div><p style="font-size:14px;color:var(--text-mid);line-height:1.7" data-en="Take 3 minutes to stimulate your vagus nerve. Try a prolonged exhale: breathe in for 4 seconds and out for 7 seconds. Or step outside to look at actual sunlight." data-pl="Poświęć 3 minuty na stymulację nerwu błędnego. Spróbuj przedłużonego wydechu: wdychaj przez 4 sekundy i wydychaj przez 7 sekund. Lub wyjdź na zewnątrz, aby spojrzeć na prawdziwe słońce.">Take 3 minutes to stimulate your vagus nerve. Try a prolonged exhale: breathe in for 4 seconds and out for 7 seconds.</p></div><div style="background:var(--sage-light);padding:.85rem 1.25rem;border-top:1px solid var(--sage-mid);font-size:12px;color:var(--sage)" data-en="Extended exhale activates the parasympathetic brake. Natural light resets your circadian cortisol rhythm mid-day." data-pl="Przedłużony wydech aktywuje hamulec przywspółczulny. Naturalne światło resetuje dobowy rytm kortyzolu w połowie dnia."><i class="ti ti-brain" style="margin-right:6px"></i>Extended exhale activates the parasympathetic brake. Natural light resets your circadian cortisol rhythm mid-day.</div></div>
+    <div style="background:var(--white);border:1px solid #e2e8f0;border-radius:var(--r);overflow:hidden"><div style="padding:1.5rem 1.5rem 1rem"><div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem"><div style="width:38px;height:38px;background:var(--sage-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:var(--sage);border:1px solid var(--sage-mid);flex-shrink:0">4</div><div><div style="font-size:15px;font-weight:500" data-en="Enforce a hard ending" data-pl="Narzuć twarde zakończenie">Enforce a hard ending</div><div style="font-size:12px;color:var(--text-light)" data-en="End of the day" data-pl="Koniec dnia">End of the day</div></div></div><p style="font-size:14px;color:var(--text-mid);line-height:1.7" data-en='Pack up and leave exactly when your contract hours end. The classroom will never be fully "done," but your daily nervous system capacity will be.' data-pl="Spakuj się i wyjdź dokładnie wtedy, gdy kończy się Twój dzień pracy. Klasa nigdy nie będzie w pełni skończona, ale Twoja dzienna pojemność układu nerwowego tak.">Pack up and leave exactly when your contract hours end. The classroom will never be fully "done," but your daily nervous system capacity will be.</p></div><div style="background:var(--sage-light);padding:.85rem 1.25rem;border-top:1px solid var(--sage-mid);font-size:12px;color:var(--sage)" data-en="Psychological detachment from work is the strongest predictor of next-day energy. (Sonnentag &amp; Fritz, 2007)" data-pl="Psychologiczne odłączenie się od pracy jest jednym z najsilniejszych wskaźników poziomu energii następnego dnia. (Sonnentag &amp; Fritz, 2007)"><i class="ti ti-brain" style="margin-right:6px"></i>Psychological detachment from work is the strongest predictor of next-day energy. (Sonnentag &amp; Fritz, 2007)</div></div>
+  </div>
+  <div class="stag" data-en="Micro-regulations for in-the-moment stress" data-pl="Mikro-regulacje dla stresu w danej chwili">Micro-regulations for in-the-moment stress</div>
+  <p style="font-size:15px;color:var(--text-mid);line-height:1.8;margin-top:.75rem;margin-bottom:1.75rem;max-width:680px" data-en="When you feel your chest tightening or notice your frustration rising mid-lesson, your body is drifting out of its optimal window. Try these discreet, zero-time grounding tools right at your desk." data-pl="Gdy poczujesz ściskanie w klatce piersiowej lub zauważysz rosnącą frustrację w trakcie lekcji, Twoje ciało oddala się od optymalnego okna. Wypróbuj te dyskretne, natychmiastowe narzędzia uziemienia przy swoim biurku.">When you feel your chest tightening or notice your frustration rising mid-lesson, your body is drifting out of its optimal window.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin-bottom:3rem">
+    <div style="background:var(--white);border:1px solid #e2e8f0;border-left:3px solid var(--sage);border-radius:var(--r);padding:1.5rem"><div style="display:flex;align-items:center;gap:10px;margin-bottom:.75rem"><div style="width:32px;height:32px;background:var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex-shrink:0"><i class="ti ti-eye"></i></div><h3 style="font-size:15px" data-en="The 5-4-3-2-1 check" data-pl="Sprawdzenie 5-4-3-2-1">The 5-4-3-2-1 check</h3></div><p style="font-size:14px;color:var(--text-mid);line-height:1.7" data-en="Silently name 5 things you see, 4 things you can physically feel, 3 things you hear, 2 things you smell, and 1 thing you taste." data-pl="Cicho nazwij 5 rzeczy, które widzisz, 4 rzeczy, które fizycznie czujesz, 3 rzeczy, które słyszysz, 2 rzeczy, które wąchasz i 1 rzecz, którą smakujesz.">Silently name 5 things you see, 4 things you can physically feel, 3 things you hear, 2 things you smell, and 1 thing you taste.</p></div>
+    <div style="background:var(--white);border:1px solid #e2e8f0;border-left:3px solid var(--sage);border-radius:var(--r);padding:1.5rem"><div style="display:flex;align-items:center;gap:10px;margin-bottom:.75rem"><div style="width:32px;height:32px;background:var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex-shrink:0"><i class="ti ti-wind"></i></div><h3 style="font-size:15px" data-en="The physiological sigh" data-pl="Westchnienie fizjologiczne">The physiological sigh</h3></div><p style="font-size:14px;color:var(--text-mid);line-height:1.7" data-en="Two quick inhales through your nose — one deep breath followed by a quick extra sip of air — then one long, slow exhale. Repeating this just twice rapidly lowers your heart rate." data-pl="Dwa szybkie wdechy przez nos — jeden głęboki oddech, a następnie szybki dodatkowy łyk powietrza — a następnie jeden długi, powolny wydech. Powtórzenie tego tylko dwa razy szybko obniża tętno.">Two quick inhales through your nose — one deep breath followed by a quick extra sip of air — then one long, slow exhale.</p></div>
+    <div style="background:var(--white);border:1px solid #e2e8f0;border-left:3px solid var(--sage);border-radius:var(--r);padding:1.5rem"><div style="display:flex;align-items:center;gap:10px;margin-bottom:.75rem"><div style="width:32px;height:32px;background:var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex-shrink:0"><i class="ti ti-armchair"></i></div><h3 style="font-size:15px" data-en="Physical weight grounding" data-pl="Uziemienie ciężarem ciała">Physical weight grounding</h3></div><p style="font-size:14px;color:var(--text-mid);line-height:1.7" data-en="Press your feet flat and firm into the floor. Notice the physical weight of your body supported entirely by your chair. Let your muscles realise they don't need to hold up the room." data-pl="Mocno oprzyj stopy na podłodze. Poczuj fizyczny ciężar swojego ciała podtrzymywanego całkowicie przez krzesło. Pozwól mięśniom uświadomić sobie, że nie muszą podtrzymywać całej sali.">Press your feet flat and firm into the floor. Notice the physical weight of your body supported entirely by your chair.</p></div>
+  </div>
+  <div style="background:linear-gradient(135deg,#5a7a6a,#4a6a5a);border-radius:var(--r);padding:2rem;color:#fff;text-align:center">
+    <div style="max-width:580px;margin:0 auto">
+      <div style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.6);margin-bottom:.75rem" data-en="The Regulated Teacher Reminder" data-pl="Przypomnienie dla Regulowanego Nauczyciela">The Regulated Teacher Reminder</div>
+      <p style="font-family:var(--serif);font-size:clamp(17px,2.5vw,22px);font-style:italic;color:#e8f5ef;line-height:1.7" data-en="A dysregulated adult cannot regulate a dysregulated child. Prioritising your own calm is your most important teaching strategy." data-pl="Nieuregulowany dorosły nie może regulować nieuregulowanego dziecka. Priorytetowe traktowanie własnego spokoju jest najważniejszą strategią nauczania.">A dysregulated adult cannot regulate a dysregulated child. Prioritising your own calm is your most important teaching strategy.</p>
+    </div>
+  </div>
+</div>
+<footer><p>The Regulated Educator &nbsp;&nbsp; Built on peer-reviewed neuroscience &nbsp;&nbsp; Barbara Anna Zielonka</p><p style="margin-top:8px;font-size:12px;opacity:.6" data-en="This site provides psychoeducational information and does not constitute medical or psychological advice." data-pl="Ta strona dostarcza informacji psychoedukacyjnych i nie stanowi porady medycznej ani psychologicznej.">This site provides psychoeducational information and does not constitute medical or psychological advice.</p></footer>
+</div>
+
+<!-- ══════ SELF ASSESSMENT ══════ -->
+<div id="p-assessment" class="page">
+<nav>
+  <span class="nav-brand" onclick="goPage('p-main')">The Regulated Educator</span>
+  <div class="nav-links">
+    <button class="back-btn" onclick="goPage('p-main')"><i class="ti ti-arrow-left"></i> <span data-en="Back" data-pl="Wróć">Back</span></button>
+    <button class="nav-ref" onclick="goPage('p-refs')" data-en="References" data-pl="Źródła">References</button>
+    <div class="lang-group">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('pl')">PL</button>
+    </div>
+  </div>
+</nav>
+<div class="sub-hero" style="background:linear-gradient(160deg,#eef5f1,#eef2f8)">
+  <div class="sub-hi">
+    <div class="badge" data-en="SELF ASSESSMENT" data-pl="SAMOOCENA">SELF ASSESSMENT</div>
+    <h1 style="font-size:clamp(22px,3vw,34px);font-family:var(--serif);font-style:italic;font-weight:400;margin-top:.75rem" data-en="Where Is Your Nervous System Right Now?" data-pl="Gdzie znajduje się teraz Twój układ nerwowy?">Where Is Your Nervous System Right Now?</h1>
+    <p style="font-size:15px;color:var(--text-mid);margin-top:.75rem;max-width:600px;line-height:1.8" data-en="10 questions to locate yourself on the Window of Tolerance and route you to the right tools." data-pl="10 pytań, które pomogą Ci określić stan układu nerwowego i wybrać strategie najlepiej dopasowane do Twoich potrzeb.">10 questions to locate yourself on the Window of Tolerance and route you to the right tools.</p>
+  </div>
+</div>
+<div class="sub-main"><div id="quiz-wrap"></div></div>
+<footer><p>The Regulated Educator &nbsp;&nbsp; Built on peer-reviewed neuroscience &nbsp;&nbsp; Barbara Anna Zielonka</p><p style="margin-top:8px;font-size:12px;opacity:.6" data-en="This site provides psychoeducational information and does not constitute medical or psychological advice." data-pl="Ta strona dostarcza informacji psychoedukacyjnych i nie stanowi porady medycznej ani psychologicznej.">This site provides psychoeducational information and does not constitute medical or psychological advice.</p></footer>
+</div>
+
+<!-- ══════ STAFFROOM ══════ -->
+<div id="p-staffroom" class="page">
+<nav>
+  <span class="nav-brand" onclick="goPage('p-main')">The Regulated Educator</span>
+  <div class="nav-links">
+    <button class="back-btn" onclick="goPage('p-main')"><i class="ti ti-arrow-left"></i> <span data-en="Back" data-pl="Wróć">Back</span></button>
+    <button class="nav-ref" onclick="goPage('p-refs')" data-en="References" data-pl="Źródła">References</button>
+    <div class="lang-group">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('pl')">PL</button>
+    </div>
+  </div>
+</nav>
+<div class="sub-hero"><div class="sub-hi">
+  <div class="badge" data-en="STAFFROOM SURVIVAL" data-pl="PRZETRWANIE W POKOJU NAUCZYCIELSKIM">STAFFROOM SURVIVAL</div>
+  <h1 style="font-size:clamp(22px,3vw,34px);font-family:var(--serif);font-style:italic;font-weight:400;margin-top:.75rem" data-en="Protecting Your Peace to Fuel Classroom Innovation" data-pl="Chroń swój spokój, by napędzać innowacje w klasie">Protecting Your Peace to Fuel Classroom Innovation</h1>
+</div></div>
+<div class="sub-main">
+  <div class="intro-box"><strong data-en="A foundational truth underpins all great teaching:" data-pl="Fundamentalna prawda leży u podstaw każdego wspaniałego nauczania:">A foundational truth underpins all great teaching:</strong> <span data-en="you cannot innovate from a place of chronic exhaustion. This guide combines tactical staffroom boundaries with a protective mindset to help you reclaim your time and protect your peace." data-pl="nie możesz wprowadzać innowacji z miejsca chronicznego wyczerpania. Ten przewodnik łączy taktyczne granice w pokoju nauczycielskim z ochronnym nastawieniem, aby pomóc Ci odzyskać czas i chronić spokój.">you cannot innovate from a place of chronic exhaustion. This guide combines tactical staffroom boundaries with a protective mindset to help you reclaim your time and protect your peace.</span></div>
+  <div class="loop-box"><h3><i class="ti ti-repeat" style="color:var(--warm);margin-right:8px"></i><span data-en='The "Groundhog Day" Staffroom Loop' data-pl='Pętla „Dnia Świstaka" w pokoju nauczycielskim'>The "Groundhog Day" Staffroom Loop</span></h3><p data-en="We have all experienced the colleague who has been running the same emotional script for months. When you sit there absorbing chronic negativity, you aren't helping them solve a problem. You are simply allowing your own energy to be drained. Empathy is a finite resource." data-pl="Wszyscy znamy kolegę lub koleżankę, którzy od miesięcy odtwarzają ten sam emocjonalny skrypt. Kiedy siedzisz tam, absorbując chroniczną negatywność, nie pomagasz im rozwiązać problemu. Po prostu pozwalasz, żeby Twoja energia była wyczerpywana. Empatia jest zasobem skończonym.">We have all experienced the colleague who has been running the same emotional script for months. When you sit there absorbing chronic negativity, you aren't helping them solve a problem. You are simply allowing your own energy to be drained. Empathy is a finite resource.</p></div>
+  <div class="stag" style="margin-bottom:1rem" data-en="7 strategies to protect your break" data-pl="7 strategii ochrony przerwy">7 strategies to protect your break</div>
+  <div class="str-grid">
+    <div class="str-card"><div class="str-top"><div class="str-n">1</div><h3 data-en="Find your sanctuary room" data-pl="Znajdź swój pokój sanktuarium">Find your sanctuary room</h3><p data-en="You are under no professional or moral obligation to spend your break in a space that drains you." data-pl="Nie masz żadnego zawodowego ani moralnego obowiązku spędzać przerwy w przestrzeni, która Cię wyczerpuje.">You are under no professional or moral obligation to spend your break in a space that drains you.</p></div><div class="str-script"><strong data-en="The script" data-pl="Skrypt">The script</strong> <span data-en='"I need some quiet time to process my morning before my next period."' data-pl='"Potrzebuję trochę ciszy, żeby przetworzyć poranek przed kolejną lekcją."'>"I need some quiet time to process my morning before my next period."</span></div></div>
+    <div class="str-card"><div class="str-top"><div class="str-n">2</div><h3 data-en="Become a structural gatekeeper" data-pl="Zostań strukturalnym strażnikiem">Become a structural gatekeeper</h3><p data-en="If you cannot physically leave, use clear, gentle but firm boundaries to halt a complaint loop before it builds momentum." data-pl="Jeśli nie możesz fizycznie wyjść, stosuj jasne, delikatne, ale stanowcze granice, aby zatrzymać pętlę skarg zanim nabierze rozpędu.">If you cannot physically leave, use clear, gentle but firm boundaries to halt a complaint loop before it builds momentum.</p></div><div class="str-script"><strong data-en="The script" data-pl="Skrypt">The script</strong> <span data-en='"I hear how frustrating that is, but my brain is completely fried right now and I really just need a few minutes of silence to reset."' data-pl='"Słyszę, jakie to jest frustrujące, ale mój mózg jest teraz całkowicie wypalony i naprawdę potrzebuję kilku minut ciszy, żeby się zresetować."'>"I hear how frustrating that is, but my brain is completely fried right now."</span></div></div>
+    <div class="str-card"><div class="str-top"><div class="str-n">3</div><h3 data-en="Deploy the headphone shield" data-pl="Użyj słuchawek">Deploy the headphone shield</h3><p data-en="Put on large, visible over-ear headphones during your break — even if you aren't playing any audio. It creates an immediate psychological boundary." data-pl="Włóż duże, widoczne słuchawki nauszne podczas przerwy — nawet jeśli niczego nie słuchasz. Tworzy to natychmiastową granicę psychologiczną.">Put on large, visible over-ear headphones during your break — even if you aren't playing any audio.</p></div><div class="str-script"><strong data-en="The save" data-pl="Ratunkowe zdanie">The save</strong> <span data-en='"Hey! Sorry, I&apos;m right in the middle of a podcast clip for my next lesson. Let&apos;s catch up later!"' data-pl='"Przepraszam, jestem w środku podcastu. Pogadamy później!"'>"Hey! Sorry, I'm right in the middle of a podcast clip for my next lesson. Let's catch up later!"</span></div></div>
+    <div class="str-card"><div class="str-top"><div class="str-n">4</div><h3 data-en="Become a moving target" data-pl="Zostań ruchomym celem">Become a moving target</h3><p data-en="Sitting on a staffroom couch makes you an open invitation. Spend your 15-minute break on your feet — physical movement also lowers your cortisol levels." data-pl="Siedzenie na kanapie w pokoju nauczycielskim czyni Cię otwartym zaproszeniem. Spędź 15-minutową przerwę na nogach — ruch fizyczny obniża również poziom kortyzolu.">Sitting on a staffroom couch makes you an open invitation. Spend your 15-minute break on your feet.</p></div><div class="str-script"><strong data-en="The benefit" data-pl="Korzyść">The benefit</strong> <span data-en="Changes your sensory environment and keeps you completely unavailable to be cornered." data-pl="Zmienia Twoje środowisko sensoryczne i sprawia, że jesteś całkowicie niedostępny/a.">Changes your sensory environment and keeps you completely unavailable to be cornered.</span></div></div>
+    <div class="str-card"><div class="str-top"><div class="str-n">5</div><h3 data-en="Time-box the vent" data-pl="Ogranicz czas żalenia się">Time-box the vent</h3><p data-en="If the person is a close colleague you genuinely want to support, protect your timeline by setting a literal boundary on the conversation right from the start." data-pl="Jeśli osoba jest bliskim kolegą lub koleżanką, którego/którą naprawdę chcesz wesprzeć, chroń swój czas ustawiając dosłowną granicę rozmowy od samego początku.">If the person is a close colleague you genuinely want to support, protect your timeline by setting a literal boundary on the conversation.</p></div><div class="str-script"><strong data-en="The script" data-pl="Skrypt">The script</strong> <span data-en='"I can see you&apos;re totally stressed. I have exactly three minutes — give me the high-level version. What happened?"' data-pl='"Widzę, że jesteś całkowicie zestresowany/a. Mam dokładnie trzy minuty, daj mi wersję skróconą. Co się stało?"'>"I can see you're totally stressed. I have exactly three minutes — give me the high-level version."</span></div></div>
+    <div class="str-card"><div class="str-top"><div class="str-n">6</div><h3 data-en="Execute a positive hijack" data-pl="Wykonaj pozytywne przejęcie">Execute a positive hijack</h3><p data-en="Chronic complainers feed on validation and shared misery. Validate the feeling quickly, then deliberately pivot to something positive and unrelated." data-pl="Osoby często narzekające poszukują potwierdzenia swoich emocji i mogą wzmacniać się wzajemnie w negatywnych interpretacjach sytuacji. W takich przypadkach warto szybko uznać ich odczucia, a następnie świadomie przekierować rozmowę na bardziej konstruktywne lub neutralne tematy.">Chronic complainers feed on validation and shared misery. Validate the feeling quickly, then deliberately pivot to something positive and unrelated.</p></div><div class="str-script"><strong data-en="The script" data-pl="Skrypt">The script</strong> <span data-en='"Yeah, that grading curve is tough. Hey — did you see the student artwork they just put up in the main hall? It&apos;s incredible."' data-pl='"Tak, ta krzywa oceniania jest trudna. Hej — widziałeś/aś prace uczniów, które właśnie wywieszono w głównej sali? Są niesamowite."'>"Yeah, that grading curve is tough. Hey — did you see the student artwork in the main hall? It's incredible."</span></div></div>
+    <div class="str-card"><div class="str-top"><div class="str-n">7</div><h3 data-en="Find a kindred spirit" data-pl="Znajdź bratnią duszę">Find a kindred spirit</h3><p data-en="Partner with a like-minded colleague and make a pact to protect each other's peace. Create a subtle rescue signal for when one of you is trapped." data-pl="Nawiąż współpracę z podobnie myślącym kolegą lub koleżanką i stwórzcie „pakt ochrony spokoju", wspierając się wzajemnie w trudnych sytuacjach. Ustalcie też dyskretny sygnał, który pozwoli zasygnalizować potrzebę wsparcia, gdy jedno z was znajdzie się w wymagającej rozmowie lub sytuacji.">Partner with a like-minded colleague and make a pact to protect each other's peace.</p></div><div class="str-script"><strong data-en="The rescue" data-pl="Ratunek">The rescue</strong> <span data-en='"Hey, sorry to interrupt — could you come look at this classroom setup with me real quick?"' data-pl='"Hej, przepraszam za przerwanie — czy mógłbyś/mogłabyś szybko rzucić okiem na tę konfigurację klasy?"'>"Hey, sorry to interrupt — could you come look at this classroom setup with me real quick?"</span></div></div>
+  </div>
+  <div class="stag" style="margin-bottom:1rem" data-en="Know the difference" data-pl="Poznaj różnicę">Know the difference</div>
+  <div class="diff-grid">
+    <div class="dc2 good"><h4 data-en="Clean venting" data-pl="Czysty upust">Clean venting</h4><p data-en="Letting off temporary steam to find a solution. Has a beginning, middle, and end. Moves toward action." data-pl="Tymczasowe odreagowanie w celu znalezienia rozwiązania. Ma początek, środek i koniec. Zmierza ku działaniu.">Letting off temporary steam to find a solution. Has a beginning, middle, and end. Moves toward action.</p></div>
+    <div class="dc2 bad"><h4 data-en="Chronic complaining" data-pl="Chroniczne narzekanie">Chronic complaining</h4><p data-en="Using colleagues as an emotional landfill. Runs the same script for months. Never moves toward change." data-pl="Używanie kolegów jako emocjonalnego wysypiska. Odgrywa ten sam skrypt od miesięcy. Nigdy nie zmierza ku zmianie.">Using colleagues as an emotional landfill. Runs the same script for months. Never moves toward change.</p></div>
+  </div>
+  <div class="takeaway"><h3 data-en='"Reclaiming your breaks isn&apos;t selfish. It is a mandatory practice for sustainable, impactful teaching."' data-pl='"Odzyskanie przerw nie jest samolubstwem. To obowiązkowa praktyka zrównoważonego i efektywnego nauczania."'>"Reclaiming your breaks isn't selfish. It is a mandatory practice for sustainable, impactful teaching."</h3><p data-en="Guard your space, protect your energy, and give your students the best version of you." data-pl="Chroń swoją przestrzeń, strzeż energii i daj uczniom najlepszą wersję siebie.">Guard your space, protect your energy, and give your students the best version of you.</p></div>
+</div>
+<footer><p>The Regulated Educator &nbsp;&nbsp; Built on peer-reviewed neuroscience &nbsp;&nbsp; Barbara Anna Zielonka</p><p style="margin-top:8px;font-size:12px;opacity:.6" data-en="This site provides psychoeducational information and does not constitute medical or psychological advice." data-pl="Ta strona dostarcza informacji psychoedukacyjnych i nie stanowi porady medycznej ani psychologicznej.">This site provides psychoeducational information and does not constitute medical or psychological advice.</p></footer>
+</div>
+
+<!-- ══════ OCCUPATIONAL HAZARDS ══════ -->
+<div id="p-hazards" class="page">
+<nav>
+  <span class="nav-brand" onclick="goPage('p-main')">The Regulated Educator</span>
+  <div class="nav-links">
+    <button class="back-btn" onclick="goPage('p-main')"><i class="ti ti-arrow-left"></i> <span data-en="Back" data-pl="Wróć">Back</span></button>
+    <button class="nav-ref" onclick="goPage('p-refs')" data-en="References" data-pl="Źródła">References</button>
+    <div class="lang-group">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('pl')">PL</button>
+    </div>
+  </div>
+</nav>
+<div class="sub-hero" style="background:linear-gradient(160deg,#fdf0ee,#f5f0eb)">
+  <div class="sub-hi">
+    <div class="badge" style="background:var(--rust-light);color:var(--rust);border-color:var(--rust-mid)" data-en="OCCUPATIONAL HAZARDS" data-pl="ZAGROŻENIA ZAWODOWE">OCCUPATIONAL HAZARDS</div>
+    <h1 style="font-size:clamp(22px,3vw,34px);font-family:var(--serif);font-style:italic;font-weight:400;margin-top:.75rem" data-en="Psychological, Neurological &amp; Physical Hazards of Teaching" data-pl="Psychologiczne, Neurologiczne i Fizyczne Zagrożenia w Nauczaniu">Psychological, Neurological &amp; Physical Hazards of Teaching</h1>
+  </div>
+</div>
+<div class="sub-main-wide">
+  <div class="haz-intro" data-en="Teaching is one of the few professions where occupational hazards span every category — neurological, psychological, physical, biological, and environmental. What follows is an evidence-informed overview of what your body and brain are navigating every single working day." data-pl="Nauczanie jest jednym z niewielu zawodów, w którym zagrożenia zawodowe obejmują każdą kategorię — neurologiczną, psychologiczną, fizyczną, biologiczną i środowiskową. Poniżej przedstawiono oparty na dowodach przegląd tego, przez co Twoje ciało i mózg przechodzą każdego dnia pracy.">Teaching is one of the few professions where occupational hazards span every category — neurological, psychological, physical, biological, and environmental.</div>
+  <div class="haz-category">
+    <div class="haz-cat-title"><i class="ti ti-brain"></i> <span data-en="Psychological &amp; Neurological Hazards" data-pl="Zagrożenia Psychologiczne i Neurologiczne">Psychological &amp; Neurological Hazards</span></div>
+    <div class="haz-grid">
+      <div class="haz-card"><div class="haz-card-top"><div class="haz-icon"><i class="ti ti-ear"></i></div><h3 data-en="Sensory overstimulation" data-pl="Przeciążenie sensoryczne">Sensory overstimulation</h3><p data-en="Classrooms are intense sensory environments. A teacher's nervous system is bombarded for hours by high-decibel noise, constant movement, and vivid visual stimuli." data-pl="Sale lekcyjne to intensywne środowiska sensoryczne. Układ nerwowy nauczyciela jest bombardowany przez wiele godzin hałasem o wysokim natężeniu, ciągłym ruchem i żywymi bodźcami wzrokowymi.">Classrooms are intense sensory environments. A teacher's nervous system is bombarded for hours by high-decibel noise, constant movement, and vivid visual stimuli.</p></div><div class="haz-impact"><strong data-en="The impact" data-pl="Skutki">The impact</strong> <span data-en="This persistent assault triggers a chronic fight-or-flight response. By early afternoon, many teachers experience sensory overload, leaving them highly irritable, anxious, and deeply depleted." data-pl="Ten trwały atak wyzwala chroniczną reakcję walcz lub uciekaj. Wczesnym popołudniem wielu nauczycieli doświadcza przeciążenia sensorycznego, pozostawiając ich bardzo drażliwymi, niespokojnymi i głęboko wyczerpanymi.">This persistent assault triggers a chronic fight-or-flight response.</span></div></div>
+      <div class="haz-card"><div class="haz-card-top"><div class="haz-icon"><i class="ti ti-cpu"></i></div><h3 data-en="Cognitive &amp; decision fatigue" data-pl="Zmęczenie poznawcze i decyzyjne">Cognitive &amp; decision fatigue</h3><p data-en="Studies show that teachers make up to 1,500 decisions per day — roughly four decisions every single minute they are with students." data-pl="Badania pokazują, że nauczyciele podejmują do 1500 decyzji dziennie — około czterech decyzji na minutę podczas pracy z uczniami.">Studies show that teachers make up to 1,500 decisions per day — roughly four decisions every single minute they are with students.</p></div><div class="haz-impact"><strong data-en="The impact" data-pl="Skutki">The impact</strong> <span data-en="Severe mental exhaustion and drained executive functioning — making basic post-work decisions feel completely overwhelming." data-pl="Poważne wyczerpanie psychiczne i wyczerpane funkcje wykonawcze — sprawiające, że podstawowe decyzje po pracy wydają się całkowicie przytłaczające.">Severe mental exhaustion and drained executive functioning.</span></div></div>
+      <div class="haz-card"><div class="haz-card-top"><div class="haz-icon"><i class="ti ti-heart-broken"></i></div><h3 data-en="Chronic fatigue &amp; burnout" data-pl="Chroniczne zmęczenie i wypalenie">Chronic fatigue &amp; burnout</h3><p data-en="Teacher fatigue is systemic — a combination of sleep deprivation, emotional labor, and physical expenditure. When combined with compassion fatigue, it rapidly accelerates into full clinical burnout." data-pl="Zmęczenie nauczyciela jest systemowe — kombinacją niedoboru snu, pracy emocjonalnej i wysiłku fizycznego. W połączeniu ze zmęczeniem współczuciem szybko przyspiesza do pełnego klinicznego wypalenia.">Teacher fatigue is systemic — a combination of sleep deprivation, emotional labor, and physical expenditure.</p></div><div class="haz-impact"><strong data-en="The impact" data-pl="Skutki">The impact</strong> <span data-en="Chronic fatigue weakens the immune system and impairs memory and concentration." data-pl="Chroniczne zmęczenie osłabia układ immunologiczny i zaburza pamięć i koncentrację.">Chronic fatigue weakens the immune system and impairs memory and concentration.</span></div></div>
+    </div>
+  </div>
+  <div class="haz-category">
+    <div class="haz-cat-title"><i class="ti ti-body-scan"></i> <span data-en="Physical &amp; Ergonomic Hazards" data-pl="Zagrożenia Fizyczne i Ergonomiczne">Physical &amp; Ergonomic Hazards</span></div>
+    <div class="haz-grid">
+      <div class="haz-card"><div class="haz-card-top"><div class="haz-icon"><i class="ti ti-microphone"></i></div><h3 data-en="Vocal strain &amp; dysphonia" data-pl="Przeciążenie głosu i dysfonia">Vocal strain &amp; dysphonia</h3><p data-en="Teachers are professional voice users, yet they rarely receive vocal training. Projecting over classroom background noise — often exceeding 60 decibels — causes severe strain on the vocal cords." data-pl="Nauczyciele są zawodowymi użytkownikami głosu, a jednak rzadko otrzymują szkolenie wokalne. Projekcja głosu ponad hałas tła w klasie — często przekraczający 60 decybeli — powoduje poważne obciążenie strun głosowych.">Teachers are professional voice users, yet they rarely receive vocal training.</p></div><div class="haz-impact"><strong data-en="The impact" data-pl="Skutki">The impact</strong> <span data-en="Teachers are drastically overrepresented in speech therapy clinics. Chronic hoarseness, laryngitis, and vocal nodules are extremely common." data-pl="Nauczyciele są drastycznie nadreprezentowani w klinikach logopedycznych. Chroniczna chrypka, zapalenie krtani i guzki głosowe są niezwykle powszechne.">Teachers are drastically overrepresented in speech therapy clinics.</span></div></div>
+      <div class="haz-card"><div class="haz-card-top"><div class="haz-icon"><i class="ti ti-spine"></i></div><h3 data-en="Musculoskeletal disorders" data-pl="Zaburzenia mięśniowo-szkieletowe">Musculoskeletal disorders</h3><p data-en="Teachers spend hours standing on hard tile floors, bending over low desks, lifting heavy materials, and typing at poorly configured workstations." data-pl="Nauczyciele spędzają wiele godzin stojąc na twardych posadzkach, pochylając się nad niskimi biurkami, dźwigając ciężkie materiały i pisząc przy źle skonfigurowanych stanowiskach pracy.">Teachers spend hours standing on hard tile floors, bending over low desks, lifting heavy materials.</p></div><div class="haz-impact"><strong data-en="The impact" data-pl="Skutki">The impact</strong> <span data-en="Chronic lower back pain, sciatica, neck strain, and plantar fasciitis are among the most frequent physical complaints." data-pl="Chroniczny ból dolnej części pleców, rwa kulszowa, napięcie szyi i zapalenie rozcięgna podeszwowego należą do najczęstszych dolegliwości fizycznych.">Chronic lower back pain, sciatica, neck strain, and plantar fasciitis are among the most frequent physical complaints.</span></div></div>
+      <div class="haz-card"><div class="haz-card-top"><div class="haz-icon"><i class="ti ti-droplet-off"></i></div><h3 data-en="Genitourinary issues" data-pl="Problemy moczowo-płciowe">Genitourinary issues</h3><p data-en="Teachers cannot leave a classroom unattended. Their ability to use the restroom is dictated by strict, infrequent schedules. To cope, many teachers intentionally dehydrate themselves during the day." data-pl="Nauczyciele nie mogą opuścić klasy bez nadzoru. Możliwość skorzystania z toalety jest dyktowana przez ścisłe, rzadkie harmonogramy. Aby sobie poradzić, wielu nauczycieli celowo odwadnia się w ciągu dnia.">Teachers cannot leave a classroom unattended.</p></div><div class="haz-impact"><strong data-en="The impact" data-pl="Skutki">The impact</strong> <span data-en="High rates of urinary tract infections, kidney stones, and chronic bladder issues." data-pl="Wysokie wskaźniki infekcji dróg moczowych, kamieni nerkowych i chronicznych problemów z pęcherzem.">High rates of urinary tract infections, kidney stones, and chronic bladder issues.</span></div></div>
+    </div>
+  </div>
+  <div class="haz-category">
+    <div class="haz-cat-title"><i class="ti ti-virus"></i> <span data-en="Biological &amp; Environmental Hazards" data-pl="Zagrożenia Biologiczne i Środowiskowe">Biological &amp; Environmental Hazards</span></div>
+    <div class="haz-grid">
+      <div class="haz-card"><div class="haz-card-top"><div class="haz-icon"><i class="ti ti-shield-x"></i></div><h3 data-en="High pathogen exposure" data-pl="Wysokie narażenie na patogeny">High pathogen exposure</h3><p data-en="Classrooms are notoriously high-risk environments for infectious diseases. Close proximity to dozens of children means constant exposure to influenza, colds, strep throat, stomach bugs, and pink eye." data-pl="Sale lekcyjne są znane jako środowiska wysokiego ryzyka dla chorób zakaźnych. Bliska odległość od dziesiątek dzieci oznacza stałe narażenie na grypę, przeziębienia, anginę, dolegliwości żołądkowe i zapalenie spojówek.">Classrooms are notoriously high-risk environments for infectious diseases.</p></div><div class="haz-impact"><strong data-en="The impact" data-pl="Skutki">The impact</strong> <span data-en="Teachers frequently deplete their sick leave within the first few years of their careers." data-pl="Nauczyciele często wyczerpują zwolnienia chorobowe w ciągu pierwszych kilku lat kariery.">Teachers frequently deplete their sick leave within the first few years of their careers.</span></div></div>
+      <div class="haz-card"><div class="haz-card-top"><div class="haz-icon"><i class="ti ti-wind"></i></div><h3 data-en="Poor indoor air quality" data-pl="Zła jakość powietrza wewnętrznego">Poor indoor air quality</h3><p data-en="Many school buildings are aging structures with underfunded maintenance budgets. Inadequate ventilation, stagnant air, dust mites, and hidden mold are common features of working school environments." data-pl="Wiele budynków szkolnych to starzejące się konstrukcje z niedofinansowanymi budżetami konserwacyjnymi. Nieodpowiednia wentylacja, stojące powietrze, roztocza kurzu i ukryty pleśń są częstymi cechami szkolnych środowisk pracy.">Many school buildings are aging structures with underfunded maintenance budgets.</p></div><div class="haz-impact"><strong data-en="The impact" data-pl="Skutki">The impact</strong> <span data-en="Severe respiratory issues, chronic asthma flare-ups, and persistent headaches." data-pl="Poważne problemy oddechowe, chroniczne zaostrzenia astmy i uporczywe bóle głowy.">Severe respiratory issues, chronic asthma flare-ups, and persistent headaches.</span></div></div>
+      <div class="haz-card"><div class="haz-card-top"><div class="haz-icon"><i class="ti ti-alert-triangle"></i></div><h3 data-en="Workplace violence" data-pl="Przemoc w miejscu pracy">Workplace violence</h3><p data-en="An escalating hazard in modern education is behavioral volatility. Teachers frequently face physical risks from de-escalating student fights, managing aggressive outbursts, or handling objects thrown in frustration." data-pl="Narastającym zagrożeniem we współczesnej edukacji jest zmienność zachowania. Nauczyciele często stają wobec fizycznego ryzyka podczas deeskalacji bójek uczniów, zarządzania agresywnymi wybuchami lub radzenia sobie z przedmiotami rzucanymi w frustracji.">An escalating hazard in modern education is behavioral volatility.</p></div><div class="haz-impact"><strong data-en="The impact" data-pl="Skutki">The impact</strong> <span data-en="Concussions, bruising, and high levels of anticipatory anxiety are increasingly common occupational injuries." data-pl="Wstrząśnienia mózgu, siniaki i wysoki poziom lęku antycypacyjnego są coraz częstszymi urazami zawodowymi.">Concussions, bruising, and high levels of anticipatory anxiety are increasingly common occupational injuries.</span></div></div>
+    </div>
+  </div>
+  <div class="takeaway" style="background:linear-gradient(135deg,#7a4a3a,#6a3a2a)"><p style="font-size:14px;color:rgba(255,255,255,.85);line-height:1.8" data-en="Recognising the full scope of what teaching demands of the human body is the first step toward advocating for structural change and toward treating your own recovery as a non-negotiable professional necessity." data-pl="Rozpoznanie pełnego zakresu tego, czego nauczanie wymaga od ludzkiego ciała, jest pierwszym krokiem w kierunku propagowania zmian strukturalnych i traktowania własnej regeneracji jako niepodlegającej negocjacjom konieczności zawodowej.">Recognising the full scope of what teaching demands of the human body is the first step toward advocating for structural change and toward treating your own recovery as a non-negotiable professional necessity.</p></div>
+</div>
+<footer><p>The Regulated Educator &nbsp;&nbsp; Built on peer-reviewed neuroscience &nbsp;&nbsp; Barbara Anna Zielonka</p><p style="margin-top:8px;font-size:12px;opacity:.6" data-en="This site provides psychoeducational information and does not constitute medical or psychological advice." data-pl="Ta strona dostarcza informacji psychoedukacyjnych i nie stanowi porady medycznej ani psychologicznej.">This site provides psychoeducational information and does not constitute medical or psychological advice.</p></footer>
+</div>
+
+<!-- ══════ REFERENCES ══════ -->
+<div id="p-refs" class="page">
+<nav>
+  <span class="nav-brand" onclick="goPage('p-main')">The Regulated Educator</span>
+  <div class="nav-links"><button class="back-btn" onclick="goPage('p-main')"><i class="ti ti-arrow-left"></i> <span data-en="Back" data-pl="Wróć">Back</span></button></div>
+</nav>
+<div class="sub-hero"><div class="sub-hi"><div class="badge" data-en="EVIDENCE BASE" data-pl="BAZA DOWODÓW">EVIDENCE BASE</div><h1 style="font-size:28px;font-weight:500;margin-top:.5rem" data-en="References" data-pl="Źródła">References</h1></div></div>
+<div class="sub-main">
+  <div class="lg"><div class="lh">B</div>
+    <div class="rf"><div class="rn">1</div><div class="rb">Balban, M. Y., et al. (2023). Brief structured respiration practices enhance mood and reduce physiological arousal. <em>Cell Reports Medicine, 4</em>(1).<br><a href="https://doi.org/10.1016/j.xcrm.2022.100895" target="_blank">https://doi.org/10.1016/j.xcrm.2022.100895</a> <span class="rtag">SOS Toolkit</span></div></div>
+    <div class="rf"><div class="rn">2</div><div class="rb">Barrett, L. F. (2017). <em>How emotions are made.</em> Houghton Mifflin Harcourt.<br><a href="https://lisafeldmanbarrett.com/books/how-emotions-are-made/" target="_blank">https://lisafeldmanbarrett.com/books/how-emotions-are-made/</a> <span class="rtag">Sustained Attunement</span></div></div>
+    <div class="rf"><div class="rn">3</div><div class="rb">Baumeister, R. F., et al. (1998). Ego depletion. <em>Journal of Personality and Social Psychology, 74</em>(5).<br><a href="https://doi.org/10.1037/0022-3514.74.5.1252" target="_blank">https://doi.org/10.1037/0022-3514.74.5.1252</a> <span class="rtag">Decision Fatigue</span></div></div>
+  </div>
+  <div class="lg"><div class="lh">C</div>
+    <div class="rf"><div class="rn">4</div><div class="rb">Clarifi Staffing Solutions. (n.d.). Burned out and overstimulation.<br><a href="https://www.clarifistaffing.com/post/burned-out-and-overstimulation" target="_blank">https://www.clarifistaffing.com/post/burned-out-and-overstimulation</a> <span class="rtag">Sensory Overstimulation</span></div></div>
+  </div>
+  <div class="lg"><div class="lh">D</div>
+    <div class="rf"><div class="rn">5</div><div class="rb">Dana, D. (2018). <em>The polyvagal theory in therapy.</em> W. W. Norton.<br><a href="https://wwnorton.com/books/9780393712377" target="_blank">https://wwnorton.com/books/9780393712377</a> <span class="rtag">De-escalation Scripts</span></div></div>
+  </div>
+  <div class="lg"><div class="lh">E</div>
+    <div class="rf"><div class="rn">6</div><div class="rb">Education Support. (n.d.). Teacher burnout and how to avoid it.<br><a href="https://www.educationsupport.org.uk/resources/for-individuals/articles/teacher-burnout-and-how-to-avoid-it/" target="_blank">https://www.educationsupport.org.uk/resources/for-individuals/articles/teacher-burnout-and-how-to-avoid-it/</a> <span class="rtag">Burnout</span></div></div>
+    <div class="rf"><div class="rn">7</div><div class="rb">Education Week. (2021). 1,500 decisions a day (at least).<br><a href="https://www.edweek.org/teaching-learning/1-500-decisions-a-day-at-least-how-teachers-cope-with-a-dizzying-array-of-questions/2021/12" target="_blank">https://www.edweek.org/teaching-learning/1-500-decisions-a-day</a> <span class="rtag">Decision Fatigue</span></div></div>
+    <div class="rf"><div class="rn">8</div><div class="rb">Edutopia. (n.d.). Battling decision fatigue.<br><a href="https://www.edutopia.org/blog/battling-decision-fatigue-gravity-goldberg-renee-houser" target="_blank">https://www.edutopia.org/blog/battling-decision-fatigue</a> <span class="rtag">Decision Fatigue</span></div></div>
+  </div>
+  <div class="lg"><div class="lh">F</div>
+    <div class="rf"><div class="rn">9</div><div class="rb">Feldman, R. (2007). Parent–infant synchrony. <em>Developmental Psychobiology, 65</em>(1).<br><a href="https://doi.org/10.1002/dev.20176" target="_blank">https://doi.org/10.1002/dev.20176</a> <span class="rtag">Co-regulation</span></div></div>
+    <div class="rf"><div class="rn">10</div><div class="rb">Friston, K. (2010). The free-energy principle. <em>Nature Reviews Neuroscience, 11</em>(2).<br><a href="https://doi.org/10.1038/nrn2787" target="_blank">https://doi.org/10.1038/nrn2787</a> <span class="rtag">Sustained Attunement</span></div></div>
+  </div>
+  <div class="lg"><div class="lh">G</div>
+    <div class="rf"><div class="rn">11</div><div class="rb">Gooden, B. A. (1994). Mechanism of the human diving response. <em>Integrative Physiological and Behavioral Science, 29</em>(1).<br><a href="https://doi.org/10.1007/BF02691277" target="_blank">https://doi.org/10.1007/BF02691277</a> <span class="rtag">SOS Toolkit</span></div></div>
+    <div class="rf"><div class="rn">12</div><div class="rb">Grandey, A. A. (2003). When "the show must go on." <em>Academy of Management Journal, 46</em>(1).<br><a href="https://doi.org/10.2307/30040678" target="_blank">https://doi.org/10.2307/30040678</a> <span class="rtag">Emotional Labor</span></div></div>
+    <div class="rf"><div class="rn">13</div><div class="rb">Grossman, P., et al. (2004). Mindfulness-based stress reduction and health benefits. <em>Journal of Psychosomatic Research, 57</em>(1).<br><a href="https://doi.org/10.1016/S0022-3999(03)00573-7" target="_blank">https://doi.org/10.1016/S0022-3999(03)00573-7</a> <span class="rtag">Co-regulation Recovery</span></div></div>
+  </div>
+  <div class="lg"><div class="lh">H</div>
+    <div class="rf"><div class="rn">14</div><div class="rb">Hakanen, J. J., et al. (2006). Burnout and work engagement among teachers. <em>Journal of School Psychology, 43</em>(6).<br><a href="https://doi.org/10.1016/j.jsp.2005.11.001" target="_blank">https://doi.org/10.1016/j.jsp.2005.11.001</a> <span class="rtag">Burnout</span></div></div>
+    <div class="rf"><div class="rn">15</div><div class="rb">Hakanen, J. J., &amp; Schaufeli, W. B. (2012). Do burnout and work engagement predict depressive symptoms? <em>Journal of Affective Disorders, 141</em>(2–3).<br><a href="https://doi.org/10.1016/j.jad.2012.02.043" target="_blank">https://doi.org/10.1016/j.jad.2012.02.043</a> <span class="rtag">Cortisol &amp; Burnout</span></div></div>
+    <div class="rf"><div class="rn">16</div><div class="rb">Hiebert, J., &amp; Morris, A. K. (2012). Teaching, rather than teachers. <em>Journal of Teacher Education, 63</em>(2).<br><a href="https://doi.org/10.1177/0022487111428328" target="_blank">https://doi.org/10.1177/0022487111428328</a> <span class="rtag">Decision Fatigue</span></div></div>
+    <div class="rf"><div class="rn">17</div><div class="rb">Hülsheger, U. R., &amp; Schewe, A. F. (2011). On the costs and benefits of emotional labor. <em>Journal of Occupational Health Psychology, 16</em>(3).<br><a href="https://doi.org/10.1037/a0022876" target="_blank">https://doi.org/10.1037/a0022876</a> <span class="rtag">Emotional Labor</span></div></div>
+  </div>
+  <div class="lg"><div class="lh">K</div>
+    <div class="rf"><div class="rn">18</div><div class="rb">Kyriacou, C. (2001). Teacher stress: Directions for future research. <em>Educational Review, 53</em>(1).<br><a href="https://doi.org/10.1080/00131910124115" target="_blank">https://doi.org/10.1080/00131910124115</a> <span class="rtag">Allostatic Load</span></div></div>
+  </div>
+  <div class="lg"><div class="lh">L</div>
+    <div class="rf"><div class="rn">19</div><div class="rb">Levine, P. A. (1997). <em>Waking the tiger: Healing trauma.</em> North Atlantic Books.<br><a href="https://www.northatlanticbooks.com/shop/waking-the-tiger/" target="_blank">https://www.northatlanticbooks.com/shop/waking-the-tiger/</a> <span class="rtag">SOS Toolkit</span></div></div>
+    <div class="rf"><div class="rn">20</div><div class="rb">Lieberman, M. D., et al. (2007). Putting feelings into words. <em>Psychological Science, 18</em>(5).<br><a href="https://doi.org/10.1111/j.1467-9280.2007.01916.x" target="_blank">https://doi.org/10.1111/j.1467-9280.2007.01916.x</a> <span class="rtag">SOS Toolkit</span></div></div>
+  </div>
+  <div class="lg"><div class="lh">M</div>
+    <div class="rf"><div class="rn">21</div><div class="rb">McEwen, B. S. (1998). Stress, adaptation, and disease. <em>Annals of the New York Academy of Sciences, 840</em>(1).<br><a href="https://doi.org/10.1111/j.1749-6632.1998.tb09546.x" target="_blank">https://doi.org/10.1111/j.1749-6632.1998.tb09546.x</a> <span class="rtag">Cortisol / Allostatic Load</span></div></div>
+    <div class="rf"><div class="rn">22</div><div class="rb">Monsell, S. (2003). Task switching. <em>Trends in Cognitive Sciences, 7</em>(3).<br><a href="https://doi.org/10.1016/S1364-6613(03)00028-7" target="_blank">https://doi.org/10.1016/S1364-6613(03)00028-7</a> <span class="rtag">Role-switching</span></div></div>
+  </div>
+  <div class="lg"><div class="lh">P</div>
+    <div class="rf"><div class="rn">23</div><div class="rb">Porges, S. W. (2011). <em>The polyvagal theory.</em> W. W. Norton.<br><a href="https://wwnorton.com/books/9780393707007" target="_blank">https://wwnorton.com/books/9780393707007</a> <span class="rtag">Co-regulation / Window of Tolerance</span></div></div>
+  </div>
+  <div class="lg"><div class="lh">S</div>
+    <div class="rf"><div class="rn">24</div><div class="rb">Shan, G., et al. (2019). Cortisol awakening response in teachers. <em>Frontiers in Psychology, 10</em>.<br><a href="https://doi.org/10.3389/fpsyg.2019.02678" target="_blank">https://doi.org/10.3389/fpsyg.2019.02678</a> <span class="rtag">Teacher Cortisol</span></div></div>
+    <div class="rf"><div class="rn">25</div><div class="rb">Shapiro, F. (2001). <em>Eye movement desensitization and reprocessing (EMDR)</em> (2nd ed.). Guilford Press.<br><a href="https://www.guilford.com/books/Eye-Movement-Desensitization-and-Reprocessing-(EMDR)-Therapy/Francine-Shapiro/9781462532766" target="_blank">https://www.guilford.com/books/9781462532766</a> <span class="rtag">SOS Toolkit</span></div></div>
+    <div class="rf"><div class="rn">26</div><div class="rb">Siegel, D. J. (1999). <em>The developing mind.</em> Guilford Press.<br><a href="https://www.guilford.com/books/The-Developing-Mind/Daniel-Siegel/9781462529759" target="_blank">https://www.guilford.com/books/The-Developing-Mind/Daniel-Siegel/9781462529759</a> <span class="rtag">Window of Tolerance</span></div></div>
+    <div class="rf"><div class="rn">27</div><div class="rb">Sonnentag, S., &amp; Fritz, C. (2007). The Recovery Experience Questionnaire. <em>Journal of Occupational Health Psychology, 12</em>(3).<br><a href="https://doi.org/10.1037/1076-8998.12.3.204" target="_blank">https://doi.org/10.1037/1076-8998.12.3.204</a> <span class="rtag">Recovery Deficit</span></div></div>
+    <div class="rf"><div class="rn">28</div><div class="rb">Sparkle Shine Teach. (n.d.). Teachers make more minute-by-minute decisions than a brain surgeon.<br><a href="https://www.sparkleshineteach.net/post/teachers-make-more-minute-by-minute-decisions-than-a-brain-surgeon-here-s-why" target="_blank">https://www.sparkleshineteach.net/post/teachers-make-more-decisions</a> <span class="rtag">Decision Fatigue</span></div></div>
+  </div>
+  <div class="lg"><div class="lh">T</div>
+    <div class="rf"><div class="rn">29</div><div class="rb">Thayer, J. F., &amp; Lane, R. D. (2009). A model of neurovisceral integration. <em>Neuroscience &amp; Biobehavioral Reviews, 33</em>(2).<br><a href="https://doi.org/10.1016/j.neubiorev.2008.08.004" target="_blank">https://doi.org/10.1016/j.neubiorev.2008.08.004</a> <span class="rtag">Vagal Toning</span></div></div>
+    <div class="rf"><div class="rn">30</div><div class="rb">Tsouloupas, C. N., et al. (2010). Exploring the association between teachers' perceived student misbehaviour and emotional exhaustion. <em>Educational Psychology, 30</em>(2).<br><a href="https://doi.org/10.1080/01443410903494460" target="_blank">https://doi.org/10.1080/01443410903494460</a> <span class="rtag">Emotional Labor &amp; Attrition</span></div></div>
+  </div>
+</div>
+<footer><p>The Regulated Educator &nbsp;&nbsp; Built on peer-reviewed neuroscience &nbsp;&nbsp; Barbara Anna Zielonka</p><p style="margin-top:8px;font-size:12px;opacity:.6" data-en="This site provides psychoeducational information and does not constitute medical or psychological advice." data-pl="Ta strona dostarcza informacji psychoedukacyjnych i nie stanowi porady medycznej ani psychologicznej.">This site provides psychoeducational information and does not constitute medical or psychological advice.</p></footer>
+</div>
+
+<!-- MODAL -->
+<div class="mo" id="mo" onclick="if(event.target===this)closeM()">
+  <div class="mb"><button class="mc" onclick="closeM()"><i class="ti ti-x"></i></button><h2 id="mt"></h2><div class="msub" id="msub"></div><div id="mbody"></div></div>
+</div>
+
+<script>
+var currentLang='en';
+
+var translations={
+  'hero-badge':{en:'THE NEUROSCIENCE OF HOLDING SPACE',pl:'NEURONAUKA BYCIA OBECNYM'},
+  'hero-h1':{en:"You aren't just teaching a curriculum.<br><span>You are anchoring 30 different nervous systems.</span>",pl:"Nie uczysz tylko programu nauczania.<br><span>Regulujesz układ nerwowy 30 różnych osób.</span>"},
+  'hero-p':{en:"Non-teachers see a 5-hour school day. Neuroscience sees 5 hours of <strong>sustained attunement</strong>, intense emotional labor, and relentless co-regulation. Welcome to the evidence-based sanctuary built to protect your brain.",pl:"Osoby spoza zawodu widzą 5-godzinny dzień pracy. Neuronauka widzi 5 godzin trwałego dostrojenia, intensywnej pracy emocjonalnej i nieustannej ko-regulacji. Witaj w opartym na dowodach naukowych sanktuarium stworzonym, by chronić Twój mózg."},
+  'btn-sos-text':{en:'Find immediate calm: the 30-second SOS toolkit',pl:'Znajdź natychmiastowy spokój: zestaw SOS 30 sekund'},
+  'btn-sci-text':{en:'Explore the science of your brain',pl:'Odkryj naukę o Twoim mózgu'},
+  'stat1':{en:'nervous systems per classroom',pl:'układów nerwowych w klasie'},
+  'stat2':{en:'micro-predictions per day',pl:'mikroprzewidywań dziennie'},
+  'stat3':{en:'higher burnout rate',pl:'wyższy wskaźnik wypalenia'},
+  'aff-quote':{en:'"You are not failing. You are just operating a human brain under extraordinary neurological demands."',pl:'"To nie jest porażka, ale naturalna reakcja ludzkiego mózgu na nadzwyczajne wymagania neurologiczne."'}
+};
+
+function setLang(lang){
+  currentLang=lang;
+  // update named elements
+  Object.keys(translations).forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.innerHTML=translations[id][lang]||translations[id]['en'];
+  });
+  // update data-en/data-pl elements
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    var val=el.getAttribute('data-'+lang);
+    if(val) el.innerHTML=val;
+  });
+  // update lang buttons
+  document.querySelectorAll('.lang-btn').forEach(function(b){
+    b.classList.toggle('active',b.textContent.trim()===lang.toUpperCase());
+  });
+  if(document.getElementById('p-assessment').classList.contains('active')) startQuiz();
+}
+
+function goPage(id){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  var t=document.getElementById(id);
+  if(t) t.classList.add('active');
+  window.scrollTo(0,0);
+  closeMenu();
+  if(id==='p-assessment') startQuiz();
+}
+function scTo(id){var el=document.getElementById(id);if(el) el.scrollIntoView({behavior:'smooth'});}
+function toggleMenu(){
+  var m=document.getElementById('mobileMenu'),h=document.getElementById('hamburger');
+  m.classList.toggle('open');
+  h.innerHTML=m.classList.contains('open')?'<i class="ti ti-x"></i>':'<i class="ti ti-menu-2"></i>';
+}
+function closeMenu(){
+  var m=document.getElementById('mobileMenu'),h=document.getElementById('hamburger');
+  if(m) m.classList.remove('open');
+  if(h) h.innerHTML='<i class="ti ti-menu-2"></i>';
+}
+function toggleSOS(c){
+  var o=c.classList.contains('open');
+  document.querySelectorAll('.sc').forEach(function(x){x.classList.remove('open');});
+  if(!o) c.classList.add('open');
+}
+
+var MD={
+  fatigue:{
+    en:{t:"The myth of 'just teaching'",s:"Decision fatigue, role-switching, and your brain's glucose",b:'<div class="ms"><div class="msc">1</div><div><h4>What decision fatigue actually is</h4><p>Every decision draws on the same finite prefrontal cortex resource pool. Teachers make an estimated 1,500 educational decisions per day.</p></div></div><div class="ms"><div class="msc">2</div><div><h4>The cost of switching hats</h4><p>Switching from "instructor" to "mediator" requires executive-function resets. Each switch leaves residue competing for working memory.</p></div></div><div class="ms"><div class="msc">3</div><div><h4>One protective strategy</h4><p>Temporal batching — grouping similar role demands together — reduces the total number of switches.</p></div></div><div class="msci"><strong>Key sources:</strong> Monsell (2003); Baumeister et al. (1998).</div>'},
+    pl:{t:"Mit 'tylko nauczania'",s:"Zmęczenie decyzyjne, zmiana ról i glukoza w mózgu",b:'<div class="ms"><div class="msc">1</div><div><h4>Czym naprawdę jest zmęczenie decyzyjne</h4><p>Każda decyzja czerpie z tej samej skończonej puli zasobów kory przedczołowej. Nauczyciele podejmują szacunkowo 1500 decyzji edukacyjnych dziennie.</p></div></div><div class="ms"><div class="msc">2</div><div><h4>Koszt zmiany ról</h4><p>Przejście z roli „instruktora" do „mediatora" wymaga resetowania funkcji wykonawczych. Każda zmiana pozostawia ślad konkurujący o pamięć roboczą.</p></div></div><div class="ms"><div class="msc">3</div><div><h4>Jedna strategia ochronna</h4><p>Grupowanie czasowe zmniejsza całkowitą liczbę przełączeń i zachowuje zasoby poznawcze.</p></div></div><div class="msci"><strong>Kluczowe źródła:</strong> Monsell (2003); Baumeister et al. (1998).</div>'}
+  },
+  sync:{
+    en:{t:"Your nervous system is not your own",s:"Physiological synchrony between teachers and students",b:'<div class="ms"><div class="msc">1</div><div><h4>What the HRV studies found</h4><p>Heart rate variability synchronizes between people in close proximity. Teacher-student HRV coupling has been measured in classroom settings.</p></div></div><div class="ms"><div class="msc">2</div><div><h4>What this means for your afternoons</h4><p>If you have absorbed the physiological chaos of 30 nervous systems, your own autonomic system needs dedicated recovery time.</p></div></div><div class="ms"><div class="msc">3</div><div><h4>Vagal recovery practices</h4><p>Slow-paced breathing, cold water on the face, humming, and non-social nature exposure all restore vagal tone.</p></div></div><div class="msci"><strong>Key sources:</strong> Feldman (2007); Porges (2011).</div>'},
+    pl:{t:"Twój układ nerwowy nie należy tylko do Ciebie",s:"Synchronia fizjologiczna między nauczycielami a uczniami",b:'<div class="ms"><div class="msc">1</div><div><h4>Co wykazały badania HRV</h4><p>Zmienność rytmu serca synchronizuje się między osobami w bliskiej odległości. Sprzężenie HRV nauczyciela i ucznia zostało zmierzone w warunkach klasowych.</p></div></div><div class="ms"><div class="msc">2</div><div><h4>Co to oznacza dla Twoich popołudni</h4><p>Jeśli wchłonąłeś/aś fizjologiczny chaos 30 układów nerwowych, Twój własny układ autonomiczny potrzebuje dedykowanego czasu na regenerację.</p></div></div><div class="ms"><div class="msc">3</div><div><h4>Praktyki regeneracji wagalnej</h4><p>Wolne oddychanie, zimna woda na twarzy, nucenie i kontakt z naturą przywracają napięcie wagalne.</p></div></div><div class="msci"><strong>Kluczowe źródła:</strong> Feldman (2007); Porges (2011).</div>'}
+  },
+  buffer:{
+    en:{t:"Building your buffer: expanding the window",s:"Evidence-based practices that widen your window of tolerance",b:'<div class="ms"><div class="msc">1</div><div><h4>Vagal toning is a trainable skill</h4><p>The vagus nerve can be literally strengthened. Regular slow-paced breathing, cold exposure, and humming all increase resting vagal tone over weeks.</p></div></div><div class="ms"><div class="msc">2</div><div><h4>What genuine psychological rest looks like</h4><p>The brain\'s default mode network requires genuine downtime. Scrolling social media is not rest. Quiet, unstructured time is neurologically restorative.</p></div></div><div class="ms"><div class="msc">3</div><div><h4>Somatic markers to track your window</h4><p>A wider window shows up as: longer pause between stimulus and response, lower resting heart rate, and reduced Sunday-dread severity.</p></div></div><div class="msci"><strong>Key sources:</strong> Siegel (1999); Sonnentag &amp; Fritz (2007); Thayer &amp; Lane (2009).</div>'},
+    pl:{t:"Budowanie bufora: poszerzanie okna",s:"Praktyki oparte na dowodach naukowych, które wyraźnie poszerzają okno tolerancji",b:'<div class="ms"><div class="msc">1</div><div><h4>Tonizowanie wagalne to umiejętność do wyćwiczenia</h4><p>Nerw błędny można dosłownie wzmocnić. Regularne wolne oddychanie, ekspozycja na zimno i nucenie zwiększają spoczynkowe napięcie wagalne przez kilka tygodni.</p></div></div><div class="ms"><div class="msc">2</div><div><h4>Jak wygląda prawdziwy psychologiczny odpoczynek</h4><p>Sieć domyślna mózgu wymaga prawdziwego czasu wolnego. Przewijanie mediów społecznościowych nie jest odpoczynkiem. Spokojny, nieustrukturyzowany czas jest neurologicznie regenerujący.</p></div></div><div class="ms"><div class="msc">3</div><div><h4>Somatyczne wskaźniki do śledzenia okna</h4><p>Szersze okno objawia się jako: dłuższa przerwa między bodźcem a reakcją, niższe spoczynkowe tętno i zmniejszone niedzielne obawy.</p></div></div><div class="msci"><strong>Kluczowe źródła:</strong> Siegel (1999); Sonnentag &amp; Fritz (2007); Thayer &amp; Lane (2009).</div>'}
+  },
+  cortisol:{
+    en:{t:"What cortisol is doing to your body",s:"The downstream biology of chronic emotional labor",b:'<div class="ms"><div class="msc">1</div><div><h4>Memory and the hippocampus</h4><p>Chronic elevated cortisol measurably reduces hippocampal volume — the structure central to memory consolidation and emotional regulation.</p></div></div><div class="ms"><div class="msc">2</div><div><h4>The immune suppression window</h4><p>Sustained cortisol elevation suppresses lymphocyte production — explaining why teachers commonly fall ill during school holidays.</p></div></div><div class="ms"><div class="msc">3</div><div><h4>Reward circuitry blunting</h4><p>Chronic stress down-regulates dopaminergic reward pathways. The anhedonia common in late-stage burnout is receptor-level neurochemistry, not a personality trait.</p></div></div><div class="msci"><strong>Key sources:</strong> McEwen (1998); Hakanen &amp; Schaufeli (2012).</div>'},
+    pl:{t:"Co kortyzol robi z Twoim ciałem",s:"Biologiczne skutki chronicznej pracy emocjonalnej",b:'<div class="ms"><div class="msc">1</div><div><h4>Pamięć i hipokamp</h4><p>Chronicznie podwyższony kortyzol mierzalnie zmniejsza objętość hipokampa — struktury centralnej dla konsolidacji pamięci i regulacji emocjonalnej.</p></div></div><div class="ms"><div class="msc">2</div><div><h4>Okno supresji immunologicznej</h4><p>Trwale podwyższony kortyzol hamuje produkcję limfocytów — wyjaśniając, dlaczego nauczyciele często chorują podczas wakacji.</p></div></div><div class="ms"><div class="msc">3</div><div><h4>Tępienie układu nagrody</h4><p>Chroniczny stres obniża regulację dopaminergicznych szlaków nagrody. Anhedonia powszechna w późnym stadium wypalenia to neurochemia na poziomie receptorów, nie cecha osobowości.</p></div></div><div class="msci"><strong>Kluczowe źródła:</strong> McEwen (1998); Hakanen &amp; Schaufeli (2012).</div>'}
+  }
+};
+
+function openM(k){
+  var d=MD[k][currentLang]||MD[k]['en'];
+  document.getElementById('mt').textContent=d.t;
+  document.getElementById('msub').textContent=d.s;
+  document.getElementById('mbody').innerHTML=d.b;
+  document.getElementById('mo').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeM(){document.getElementById('mo').classList.remove('open');document.body.style.overflow='';}
+
+var questionsData={
+  en:[
+    {q:"How would you describe your body right now?",opts:[{t:"Tense, braced, or on edge",s:1},{t:"Heavy, sluggish, or disconnected",s:2},{t:"Calm and present",s:3}]},
+    {q:"When a student pushes back or misbehaves, your first instinct is:",opts:[{t:"To shut down or go through the motions",s:2},{t:"Raising your voice, feeling anger in your chest",s:1},{t:"To stay curious about what is driving the behaviour",s:3}]},
+    {q:"How is your ability to think and plan right now?",opts:[{t:"Racing — too many thoughts, hard to focus",s:1},{t:"Foggy and flat — I can't seem to think",s:2},{t:"Clear — I can problem-solve and improvise",s:3}]},
+    {q:"How does your chest and breathing feel?",opts:[{t:"Barely noticeable — I feel kind of numb",s:2},{t:"Shallow breath, tight chest",s:1},{t:"Slow and easy",s:3}]},
+    {q:"If a colleague knocked on your door right now, you would feel:",opts:[{t:"Nothing much — I'd go through the motions",s:2},{t:"Irritated — I just want to be left alone",s:1},{t:"Relieved — human contact sounds good",s:3}]},
+    {q:"When you think about the rest of your school day, you feel:",opts:[{t:"Anxious or overwhelmed",s:1},{t:"A low dread or emptiness",s:2},{t:"Manageable — I can handle what's ahead",s:3}]},
+    {q:"How connected do you feel to your students right now?",opts:[{t:"They feel like a threat or source of stress",s:1},{t:"Like I am watching the room from behind glass",s:2},{t:"Reasonably connected — I notice them as people",s:3}]},
+    {q:"Your jaw, shoulders, and hands feel:",opts:[{t:"Heavy or barely there",s:2},{t:"Clenched or braced",s:1},{t:"Relaxed and loose",s:3}]},
+    {q:"How are you talking to yourself internally today?",opts:[{t:"Critical or catastrophising",s:1},{t:"Silent — I feel a bit blank",s:2},{t:"Fairly kind — I'm doing my best",s:3}]},
+    {q:"If you had to score your overall regulated calm right now:",opts:[{t:"Spiked — I'm wired, reactive, or anxious",s:1},{t:"Low — I'm running on fumes",s:2},{t:"Steady — I feel present and grounded",s:3}]}
+  ],
+  pl:[
+    {q:"Jak opisałbyś/abyś swoje ciało teraz?",opts:[{t:"Napięte, spięte lub na krawędzi",s:1},{t:"Ciężkie, ociężałe lub odłączone",s:2},{t:"Spokojne i obecne",s:3}]},
+    {q:"Gdy uczeń odrzuca polecenie lub źle się zachowuje, Twój pierwszy instynkt to:",opts:[{t:"Wyłączyć się lub działać mechanicznie",s:2},{t:"Podniesienie głosu, uczucie gniewu w klatce piersiowej",s:1},{t:"Pozostać ciekawym/ą, co napędza to zachowanie",s:3}]},
+    {q:"Jak jest Twoja zdolność myślenia i planowania teraz?",opts:[{t:"Wyścigowe — za dużo myśli, trudno się skupić",s:1},{t:"Zamglone i płaskie — nie mogę myśleć",s:2},{t:"Jasne — mogę rozwiązywać problemy i improwizować",s:3}]},
+    {q:"Jak czujesz się w klatce piersiowej i z oddechem?",opts:[{t:"Ledwo zauważalne — czuję się trochę odrętwiale",s:2},{t:"Płytki oddech, napięta klatka piersiowa",s:1},{t:"Wolno i łatwo",s:3}]},
+    {q:"Gdyby kolega/koleżanka zapukał/a teraz do Twoich drzwi, poczułbyś/abyś:",opts:[{t:"Niewiele — działałbym/abym mechanicznie",s:2},{t:"Rozdrażnienie — chcę po prostu być sam/a",s:1},{t:"Ulgę — kontakt z człowiekiem brzmi dobrze",s:3}]},
+    {q:"Gdy myślisz o reszcie swojego dnia szkolnego, czujesz:",opts:[{t:"Niepokój lub przytłoczenie",s:1},{t:"Niski lęk lub pustkę",s:2},{t:"Wykonalność — poradzę sobie z tym, co przede mną",s:3}]},
+    {q:"Jak bardzo czujesz się teraz połączony/a z uczniami?",opts:[{t:"Wydają się zagrożeniem lub źródłem stresu",s:1},{t:"Jakbym oglądał/a klasę zza szyby",s:2},{t:"Rozsądnie połączony/a — zauważam ich jako ludzi",s:3}]},
+    {q:"Twoja szczęka, ramiona i dłonie czują się:",opts:[{t:"Ciężkie lub ledwo obecne",s:2},{t:"Zaciśnięte lub spięte",s:1},{t:"Rozluźnione i swobodne",s:3}]},
+    {q:"Jak mówisz do siebie wewnętrznie dzisiaj?",opts:[{t:"Krytycznie lub katastrofizując",s:1},{t:"Cicho — czuję się trochę pusto",s:2},{t:"Dość życzliwie — robię co mogę",s:3}]},
+    {q:"Gdybyś miał/a teraz ocenić swój ogólny spokój:",opts:[{t:"Wzburzony/a — jestem nakręcony/a, reaktywny/a lub niespokojny/a",s:1},{t:"Niski — działam na resztkach",s:2},{t:"Stabilny/a — czuję się obecny/a i zakorzeniony/a",s:3}]}
+  ]
+};
+
+var resultsData={
+  en:{
+    hyper:{label:'Hyperarousal — fight or flight',colour:'#e53e3e',bg:'#fff5f5',border:'#fed7d7',
+      desc:'Your nervous system is currently in a sympathetic spike. Cortisol and adrenaline are elevated, which means your prefrontal cortex is partially offline. This is not a character flaw — it is biology. You need to activate your parasympathetic brake before anything else.',
+      tools:[{name:'The physiological sigh',desc:'Two inhales through the nose, one long exhale. Do this twice right now.',icon:'ti-wind'},{name:'Grounding neuroception',desc:'Press both feet into the floor and name 3 things you can see.',icon:'ti-eye'},{name:'Cold water reset',desc:'Run cold water over your wrists for 10 seconds.',icon:'ti-droplet'}]},
+    hypo:{label:'Hypoarousal — freeze or shutdown',colour:'#718096',bg:'#f7fafc',border:'#e2e8f0',
+      desc:"Your nervous system has dropped into a dorsal vagal state — the body's energy-conservation mode after sustained overload. The goal is gentle activation, not a jolt.",
+      tools:[{name:'Micro-walk',desc:'Stand up and walk for 2 minutes — around the room, down a hallway, outside if possible.',icon:'ti-walk'},{name:'Orienting response reset',desc:'Slowly turn your head left, then right. Let your eyes land softly on something neutral.',icon:'ti-rotate-clockwise'},{name:'Natural light',desc:'Step outside or look at a window for 60 seconds.',icon:'ti-sun'}]},
+    window:{label:'Within your window of tolerance',colour:'#7a9e8e',bg:'#e8f0ec',border:'#c2d9ce',
+      desc:'Your nervous system is currently in a ventral vagal state — the social engagement zone. Your prefrontal cortex is online. You can think, connect, improvise, and teach. Your job now is to protect this state.',
+      tools:[{name:'Maintain your buffer',desc:'Dbaj o to, by przerwy były krótkie, ale rzeczywiście regenerujące — unikaj zadań administracyjnych w czasie przeznaczonym na poznawczy odpoczynek.',icon:'ti-battery-charging'},{name:'Protect your afternoon',desc:'Wyznacz wyraźną granicę końca dnia pracy. Świadome odłączenie się po pracy pomaga zachować zasoby i wspiera Twoje Okno Tolerancji na kolejny dzień.',icon:'ti-clock'},{name:'Notice and name it',desc:"Internally acknowledge: 'I am regulated right now.'",icon:'ti-heart'}]}
+  },
+  pl:{
+    hyper:{label:'Nadpobudzenie — walcz lub uciekaj',colour:'#e53e3e',bg:'#fff5f5',border:'#fed7d7',
+      desc:'Twój układ nerwowy jest obecnie w skoku współczulnym. Kortyzol i adrenalina są podwyższone, co oznacza, że kora przedczołowa jest częściowo offline. To nie jest wada charakteru — to biologia. Musisz aktywować hamulec przywspółczulny przed czymkolwiek innym.',
+      tools:[{name:'Westchnienie fizjologiczne',desc:'Dwa wdechy przez nos, jeden długi wydech. Zrób to dwa razy teraz.',icon:'ti-wind'},{name:'Uziemienie neuropercepcji',desc:'Mocno oprzyj obie stopy na podłodze i nazwij 3 rzeczy, które widzisz.',icon:'ti-eye'},{name:'Reset zimną wodą',desc:'Przepuść zimną wodę przez nadgarstki przez 10 sekund.',icon:'ti-droplet'}]},
+    hypo:{label:'Załamania reakcji grzbietowej gałęzi nerwu błędnego',colour:'#718096',bg:'#f7fafc',border:'#e2e8f0',
+      desc:'Twój układ nerwowy przeszedł w stan grzbietowy nerwu błędnego — tryb oszczędzania energii organizmu po trwałym przeciążeniu. Celem jest delikatna aktywacja, nie wstrząs.',
+      tools:[{name:'Mikro-spacer',desc:'Wstań i chodź przez 2 minuty — po sali, korytarzem, na zewnątrz jeśli możliwe.',icon:'ti-walk'},{name:'Reset reakcji orientacyjnej',desc:'Powoli obróć głowę w lewo, a następnie w prawo. Pozwól oczom spocząć delikatnie na czymś neutralnym.',icon:'ti-rotate-clockwise'},{name:'Naturalne światło',desc:'Wyjdź na zewnątrz lub spójrz przez okno przez 60 sekund.',icon:'ti-sun'}]},
+    window:{label:'W oknie tolerancji',colour:'#7a9e8e',bg:'#e8f0ec',border:'#c2d9ce',
+      desc:'Twój układ nerwowy jest obecnie w stanie brzusznym nerwu błędnego — strefie zaangażowania społecznego. Kora przedczołowa jest aktywna. Możesz myśleć, łączyć się, improwizować i uczyć. Twoim zadaniem jest teraz chronić ten stan.',
+      tools:[{name:'Utrzymaj bufor',desc:'Dbaj o to, by przerwy były krótkie, ale rzeczywiście regenerujące — unikaj zadań administracyjnych w czasie przeznaczonym na poznawczy odpoczynek.',icon:'ti-battery-charging'},{name:'Chroń swoje popołudnie',desc:'Wyznacz wyraźną granicę końca dnia pracy. Świadome odłączenie się po pracy pomaga zachować zasoby i wspiera Twoje Okno Tolerancji na kolejny dzień.',icon:'ti-clock'},{name:'Zauważ i nazwij',desc:'Zatrzymaj się na chwilę i wewnętrznie zauważ: „Jestem teraz w stanie równowagi" lub „Mój układ nerwowy jest teraz uregulowany".',icon:'ti-heart'}]}
+  }
+};
+
+var quizAnswers=[],shuffledOptions=[];
+function shuffle(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function startQuiz(){
+  quizAnswers=[];
+  var qs=questionsData[currentLang]||questionsData['en'];
+  shuffledOptions=qs.map(function(q){return shuffle(q.opts);});
+  renderQuestion();
+}
+function renderQuestion(){
+  var wrap=document.getElementById('quiz-wrap');if(!wrap) return;
+  var idx=quizAnswers.length;
+  var qs=questionsData[currentLang]||questionsData['en'];
+  if(idx>=qs.length){showResult();return;}
+  var q=qs[idx];var opts=shuffledOptions[idx];
+  var pct=Math.round((idx/qs.length)*100);
+  var lbl=currentLang==='pl'?'Pytanie':'Question';
+  var of=currentLang==='pl'?'z':'of';
+  var html='<div class="q-label">'+lbl+' '+(idx+1)+' '+of+' '+qs.length+'</div>';
+  html+='<div class="q-progress"><div class="q-bar" style="width:'+pct+'%"></div></div>';
+  html+='<div class="q-text">'+q.q+'</div><div class="q-options">';
+  opts.forEach(function(o){html+='<button class="q-opt" onclick="recordAnswer('+o.s+')">'+o.t+'</button>';});
+  html+='</div>';
+  wrap.innerHTML=html;
+}
+function recordAnswer(score){quizAnswers.push(score);renderQuestion();}
+function showResult(){
+  var wrap=document.getElementById('quiz-wrap');if(!wrap) return;
+  var total=quizAnswers.reduce(function(a,b){return a+b;},0);
+  var len=quizAnswers.length;
+  var pct=(total-len)/(len*2);
+  var ones=quizAnswers.filter(function(s){return s===1;}).length;
+  var twos=quizAnswers.filter(function(s){return s===2;}).length;
+  var zone=pct>=0.65?'window':ones>twos?'hyper':'hypo';
+  var r=resultsData[currentLang]?resultsData[currentLang][zone]:resultsData['en'][zone];
+  var again=currentLang==='pl'?'Zrób ponownie':'Take it again';
+  var goSOS=currentLang==='pl'?'Przejdź do zestawu SOS':'Go to full SOS toolkit';
+  var recLabel=currentLang==='pl'?'Zalecane narzędzia teraz':'Recommended tools for right now';
+  var html='<div class="result-zone" style="background:'+r.bg+';border:1.5px solid '+r.border+'">';
+  html+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem"><div style="width:14px;height:14px;border-radius:50%;background:'+r.colour+';flex-shrink:0"></div>';
+  html+='<div style="font-size:13px;font-weight:500;color:'+r.colour+';text-transform:uppercase;letter-spacing:.5px">'+r.label+'</div></div>';
+  html+='<p style="font-size:15px;color:var(--text-mid);line-height:1.8">'+r.desc+'</p></div>';
+  html+='<div class="stag" style="margin-bottom:1rem">'+recLabel+'</div><div class="result-tools">';
+  r.tools.forEach(function(t){html+='<div class="result-tool"><div class="result-tool-icon"><i class="ti '+t.icon+'"></i></div><h4>'+t.name+'</h4><p>'+t.desc+'</p></div>';});
+  html+='</div><div class="result-btns">';
+  html+='<button class="btn1" onclick="startQuiz()"><i class="ti ti-refresh"></i> '+again+'</button>';
+  html+='<button class="btn2" onclick="goPage(\'p-main\');scTo(\'sos\')">'+goSOS+'</button></div>';
+  wrap.innerHTML=html;
+}
+</script>
+</body>
+</html>
